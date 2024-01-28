@@ -26,33 +26,21 @@ public class UiFrame extends JFrame {
         JButton _reportB = new JButton("Отчет");
         _reportB.setVisible(true);
 
-        _currentDir.setText("C:\\labaratory\\dirTest");
-        _nameClient.setText("Яркие");
-
         _reportB.addActionListener(e -> {
             _getCurrentDirText = _currentDir.getText();
             _getNameClientText = _nameClient.getText();
 
             try {
                 Finder finder = new Finder(_getNameClientText, _getCurrentDirText);
-                ExcelWriter.writeExcel(finder);
+                new ExcelWriter(finder).writeExcel();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-
-            System.out.println(_getCurrentDirText);
-            System.out.println(_getNameClientText);
-
         });
-
 
         panel.add(_nameClient);
         panel.add(_currentDir);
         panel.add(_reportB);
-
-        _getNameClientText = _currentDir.getText();
-
-//        panel.setDoubleBuffered(true);
         panel.setBackground(Color.lightGray);
         Container container = getContentPane();
         container.add(panel);

@@ -12,9 +12,8 @@ public class Finder {
     private String _rootFolder;
     private String _nameClientDir;
     private Predicate<Path> isArchive = UtilClass::isArchive;
-    private List<Path> _targetDirToSearch = new ArrayList<>();
-
-    private Map<String, Map<String, List<String>>> _dataResultMap = new TreeMap<>();
+    private List<Path> _targetDirToSearch;
+    private TreeMap<String, Map<String, List<String>>> _dataResultMap;
 
     public Finder(String targetDir, String pathForSearch) throws IOException {
         _nameClientDir = targetDir;
@@ -30,18 +29,18 @@ public class Finder {
                 .collect(Collectors.toList());
     }
 
-    public Map<String, Map<String, List<String>>> createMapData() throws IOException {
-        Map<String, Map<String, List<String>>> _dictionary = new HashMap<>();
+    public TreeMap<String, Map<String, List<String>>> createMapData() throws IOException {
+        TreeMap<String, Map<String, List<String>>> _dictionary = new TreeMap<>();
         for (int i = 0; i < _targetDirToSearch.size(); i++) {
             Path _path = _targetDirToSearch.get(i);
             Map<String, List<String>> collected = Files.walk(_path)
                     .filter(Files::isRegularFile)
                     .filter(isArchive.negate())
-                    .map(TargetObjectFile::new)
+                    .map(SelectedFile::new)
                     .collect(Collectors.
-                            groupingBy(TargetObjectFile::get_type,
+                            groupingBy(SelectedFile::getTypeWork,
                                     Collectors.
-                                            mapping(TargetObjectFile::get_name, Collectors.toList())));
+                                            mapping(SelectedFile::getName, Collectors.toList())));
             _dictionary.put(getParentNameDir(_path), collected);
         }
         return _dictionary;
@@ -63,20 +62,20 @@ public class Finder {
     }
 
 
-    private class TargetObjectFile {
-        String _type;
-        String _name;
-        public TargetObjectFile(Path path) {
+    private class SelectedFile {
+        String _typeWork;
+        String _fileName;
+        public SelectedFile(Path path) {
             if (Files.isRegularFile(path)) {
-                _name = path.getFileName().toString();
+                _fileName = path.getFileName().toString();
             }
-            _type = getParentNameDir(path);
+            _typeWork = getParentNameDir(path);
         }
-        public String get_type() {
-            return _type;
+        public String getTypeWork() {
+            return _typeWork;
         }
-        public String get_name() {
-            return _name;
+        public String getName() {
+            return _fileName;
         }
     }
 
