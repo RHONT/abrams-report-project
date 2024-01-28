@@ -35,7 +35,7 @@ public class UiFrame extends JFrame {
 
             Finder finder = new Finder(_getNameClientText, _getCurrentDirText);
             try {
-                ExcelWriter.writeExcel(finder.someMethod());
+                ExcelWriter.writeExcel(finder.createMapData());
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

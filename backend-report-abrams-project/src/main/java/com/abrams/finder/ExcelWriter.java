@@ -17,6 +17,7 @@ import static com.abrams.finder.UtilClass.*;
 public class ExcelWriter {
 
     public static void writeExcel(Map<String, Map<String, List<String>>> inputDict) throws IOException {
+
         File currDir = new File(".");
         String path = currDir.getAbsolutePath();
         String fileLocation = path.substring(0, path.length() - 1) + "fastexcel.xlsx";

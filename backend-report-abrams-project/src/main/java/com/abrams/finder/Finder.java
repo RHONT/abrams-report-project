@@ -29,7 +29,7 @@ public class Finder {
                .collect(Collectors.toList());
     }
 
-    public Map<String, Map<String, List<String>>> someMethod() throws IOException {
+    public Map<String, Map<String, List<String>>> createMapData() throws IOException {
         List<Path> _pathList=getTargetDirectory();
         Map<String, Map<String, List<String>>>  _dictionary = new HashMap<>();
         for (int i = 0; i < _pathList.size(); i++) {
@@ -53,7 +53,7 @@ public class Finder {
     }
 
     public void PrintToConsole() throws IOException {
-        for (Map.Entry<String, Map<String, List<String>>> element : someMethod().entrySet()) {
+        for (Map.Entry<String, Map<String, List<String>>> element : createMapData().entrySet()) {
             System.out.println("Число - " + element.getKey());
             for (Map.Entry<String, List<String>> inenr : element.getValue().entrySet()){
                 System.out.println("--Тип продукции: " + inenr.getKey());
