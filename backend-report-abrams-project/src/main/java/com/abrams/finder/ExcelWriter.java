@@ -15,12 +15,12 @@ import java.util.Map;
 import static com.abrams.finder.UtilClass.*;
 
 public class ExcelWriter {
+    private Finder finder;
 
-    public static void writeExcel(Map<String, Map<String, List<String>>> inputDict) throws IOException {
-
-        File currDir = new File(".");
-        String path = currDir.getAbsolutePath();
-        String fileLocation = path.substring(0, path.length() - 1) + "fastexcel.xlsx";
+    public static void writeExcel(Finder finder) throws IOException {
+        Map<String, Map<String, List<String>>> _dataResultMap = finder.getDataResultMap();
+        String path = finder.get_rootFolder();
+        String fileLocation = path +"/"+ finder.get_nameClientDir() + ".xlsx";
 
         try (OutputStream os = Files.newOutputStream(Paths.get(fileLocation));
              Workbook wb = new Workbook(os, "MyApplication", "1.0")) {
@@ -39,7 +39,7 @@ public class ExcelWriter {
 
 //            ws.range(2, 0, 2, 1).style().wrapText(true).set();
             int incr = 3;
-            for (Map.Entry<String, Map<String, List<String>>> dayOfTheMonth : inputDict.entrySet()) {
+            for (Map.Entry<String, Map<String, List<String>>> dayOfTheMonth : _dataResultMap.entrySet()) {
                 String _dayOfTheMonth = dayOfTheMonth.getKey();
                 for (Map.Entry<String, List<String>> typeWork : dayOfTheMonth.getValue().entrySet()) {
                     String _typeWork = typeWork.getKey();

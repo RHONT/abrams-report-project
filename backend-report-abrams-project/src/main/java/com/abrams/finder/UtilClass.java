@@ -23,9 +23,15 @@ public class UtilClass {
             String group = matcher.group();
             Pattern splitPattern=Pattern.compile(_splitExp);
             String[] split = splitPattern.split(group);
-            double[] doubles= Arrays.stream(split).mapToDouble(Double::valueOf).toArray();
-            return ((doubles[0]/1000d)*(doubles[1]/1000d))*doubles[2];
+            return calcSquareMeters(split);
         }
         return 0;
+    }
+
+    private static double calcSquareMeters(String[] inputStrings){
+        double[] doubles= Arrays.stream(inputStrings).mapToDouble(Double::valueOf).toArray();
+        double square = (doubles[0]/1000d)*(doubles[1]/1000d);
+        double amount=doubles[2];
+        return square*amount;
     }
 }
