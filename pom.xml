@@ -10,6 +10,7 @@
     <modules>
         <module>backend-report-abrams-project</module>
         <module>ui-swing-abrams-report-project</module>
+        <module>database-report-abrams-project</module>
     </modules>
     <packaging>pom</packaging>
 
