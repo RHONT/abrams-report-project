@@ -1,10 +1,12 @@
-package com.abrams.config.entity;
+package com.abrams.entity;
 
 import com.abrams.config.H2JDBCUtils;
+import com.abrams.operation.CrudOperation;
 
 import java.sql.*;
 
-public class H2CreateExample {
+public class H2Operation {
+
     private static final String _createTableSQL = "CREATE TABLE report (" +
             "digit_of_month  varchar(20) ," +
             "name_file varchar(20)," +
@@ -19,7 +21,7 @@ public class H2CreateExample {
     private static final String _selectCustomQuery = "select digit_of_month,type_work, sum(square_meters) from report group by digit_of_month";
 
     public static void main(String[] argv) throws SQLException {
-        H2CreateExample createTableExample = new H2CreateExample();
+        H2Operation createTableExample = new H2Operation();
         createTableExample.createTable();
     }
 
@@ -32,13 +34,13 @@ public class H2CreateExample {
              Statement statement = connection.createStatement();) {
 
             connection.setAutoCommit(false);
-
+            CrudOperation.createTable(statement);
+//            statement.execute(_createTableSQL);
             PreparedStatement createPreparedStatement = null;
             PreparedStatement insertPreparedStatement = null;
             PreparedStatement selectPreparedStatement = null;
 
 //             Step 3: Execute the query or update query
-            statement.execute(_createTableSQL);
             insertPreparedStatement = connection.prepareStatement(_insertQuery);
             insertPreparedStatement.setString(1,"01");
             insertPreparedStatement.setString(2,"Пленка");
@@ -77,10 +79,6 @@ public class H2CreateExample {
                 System.out.printf("%s %s %f%n", resultSet.getString(1),
                         resultSet.getString(2), resultSet.getDouble(3));
             }
-
-
-
-
 
         } catch (SQLException e) {
             // print SQL exception information
