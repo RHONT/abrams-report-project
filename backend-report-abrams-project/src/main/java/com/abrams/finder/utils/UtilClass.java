@@ -1,4 +1,4 @@
-package com.abrams.finder;
+package com.abrams.finder.utils;
 
 import java.nio.file.Path;
 import java.util.Arrays;

@@ -1,4 +1,8 @@
-package com.abrams.finder;
+package com.abrams.finder.service;
+
+import com.abrams.finder.utils.UtilClass;
+import com.abrams.repository.CrudOperationsAbrams;
+import com.abrams.repository.CrudOperationsOperationImpl;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,17 +12,20 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class Finder {
+public class FinderService {
+    private CrudOperationsAbrams dbService;
     private String _rootFolder;
     private String _nameClientDir;
     private Predicate<Path> isArchive = UtilClass::isArchive;
     private List<Path> _targetDirToSearch;
     private TreeMap<String, Map<String, List<String>>> _dataResultMap;
 
-    public Finder(String targetDir, String pathForSearch) throws IOException {
-        _nameClientDir = targetDir;
-        _rootFolder = pathForSearch;
-        _targetDirToSearch = getTargetDirectories(Paths.get(pathForSearch));
+    public FinderService(String nameClientDir, String rootFolder) throws IOException {
+        dbService=new CrudOperationsOperationImpl();
+        dbService.createTable();
+        _nameClientDir = nameClientDir;
+        _rootFolder = rootFolder;
+        _targetDirToSearch = getTargetDirectories(Paths.get(rootFolder));
         _dataResultMap = createMapData();
     }
 
@@ -63,8 +70,8 @@ public class Finder {
 
 
     private class SelectedFile {
-        String _typeWork;
         String _fileName;
+        String _typeWork;
         public SelectedFile(Path path) {
             if (Files.isRegularFile(path)) {
                 _fileName = path.getFileName().toString();

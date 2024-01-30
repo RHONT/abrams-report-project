@@ -1,4 +1,4 @@
-package com.abrams.finder;
+package com.abrams.finder.service;
 
 import org.dhatim.fastexcel.Color;
 import org.dhatim.fastexcel.Workbook;
@@ -12,17 +12,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static com.abrams.finder.UtilClass.*;
+import static com.abrams.finder.utils.UtilClass.*;
 
 public class ExcelWriter {
-    Finder _finder;
+    FinderService _finderService;
     private final String _fileLocation;
     private TreeMap<String, Map<String, List<String>>> _dataResultMap;
 
-    public ExcelWriter(Finder finder) {
-        _finder=finder;
-        _dataResultMap = (TreeMap<String, Map<String, List<String>>>) _finder.getDataResultMap();
-        _fileLocation = _finder.get_rootFolder() +"/"+ _finder.get_nameClientDir() + ".xlsx";
+    public ExcelWriter(FinderService finderService) {
+        _finderService = finderService;
+        _dataResultMap = (TreeMap<String, Map<String, List<String>>>) _finderService.getDataResultMap();
+        _fileLocation = _finderService.get_rootFolder() +"/"+ _finderService.get_nameClientDir() + ".xlsx";
     }
 
     public void writeExcel() throws IOException {
@@ -40,7 +40,7 @@ public class ExcelWriter {
     private void createHeadSheet(Worksheet sheet) {
         sheet.range(0, 0, 0, 1).style().fontName("Arial").
                 fontSize(16).bold().fillColor(Color.LIGHT_GREEN).merge().set();
-        sheet.value(0, 0, _finder.get_nameClientDir());  // динам перем.
+        sheet.value(0, 0, _finderService.get_nameClientDir());  // динам перем.
         sheet.value(1, 0, "Число");
         sheet.value(1, 1, "Тип заказа");
         sheet.value(1, 2, "Имя файла");

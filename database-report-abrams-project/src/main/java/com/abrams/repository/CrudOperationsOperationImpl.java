@@ -3,8 +3,7 @@ package com.abrams.repository;
 import com.abrams.config.H2JDBCUtils;
 import com.abrams.dto.RowObject;
 import com.abrams.dto.RowObjectGroupByTypeWork;
-import com.abrams.finder.UtilClass;
-import com.abrams.repository.CrudOperationsAbrams;
+import com.abrams.finder.utils.UtilClass;
 
 import java.sql.*;
 import java.util.ArrayList;

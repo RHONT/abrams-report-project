@@ -1,7 +1,7 @@
 package com.abrams;
 
-import com.abrams.finder.ExcelWriter;
-import com.abrams.finder.Finder;
+import com.abrams.finder.service.ExcelWriter;
+import com.abrams.finder.service.FinderService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,8 +31,8 @@ public class UiFrame extends JFrame {
             _getNameClientText = _nameClient.getText();
 
             try {
-                Finder finder = new Finder(_getNameClientText, _getCurrentDirText);
-                new ExcelWriter(finder).writeExcel();
+                FinderService finderService = new FinderService(_getNameClientText, _getCurrentDirText);
+                new ExcelWriter(finderService).writeExcel();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
