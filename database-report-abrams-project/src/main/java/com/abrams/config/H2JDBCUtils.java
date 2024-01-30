@@ -13,7 +13,6 @@ public class H2JDBCUtils {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-            System.out.println("A am connect");
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

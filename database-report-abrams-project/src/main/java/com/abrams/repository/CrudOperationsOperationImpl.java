@@ -28,11 +28,8 @@ public class CrudOperationsOperationImpl implements CrudOperationsAbrams {
     public void createTable() {
         try (Connection connection = H2JDBCUtils.getConnection();
              Statement statement = connection.createStatement()) {
-
-            boolean check = statement.execute(_createTableSQL);
-            System.out.println("Таблица создана? = " + check);
+            statement.execute(_createTableSQL);
             connection.commit();
-
         } catch (SQLException e) {
             H2JDBCUtils.printSQLException(e);
         }
