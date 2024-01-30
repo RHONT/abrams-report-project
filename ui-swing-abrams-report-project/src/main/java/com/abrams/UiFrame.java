@@ -1,6 +1,5 @@
 package com.abrams;
 
-import com.abrams.finder.service.ExcelWriter;
 import com.abrams.finder.service.ExcelWriterFromDB;
 import com.abrams.finder.service.FinderService;
 
@@ -30,6 +29,7 @@ public class UiFrame extends JFrame {
         panel.add(_nameClient);
         panel.add(_currentDir);
         panel.add(_reportGroup);
+        panel.add(_reportEach);
         panel.setBackground(Color.lightGray);
         Container container = getContentPane();
         container.add(panel);
@@ -46,7 +46,7 @@ public class UiFrame extends JFrame {
             try {
                 FinderService finderService = new FinderService(_getNameClientText, _getCurrentDirText);
 //                new ExcelWriter(finderService).writeExcel();
-                new ExcelWriterFromDB(finderService).writeExcel();
+                new ExcelWriterFromDB(finderService).writeGroupExcel();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -65,7 +65,7 @@ public class UiFrame extends JFrame {
             try {
                 FinderService finderService = new FinderService(_getNameClientText, _getCurrentDirText);
 //                new ExcelWriter(finderService).writeExcel();
-                new ExcelWriterFromDB(finderService).writeExcel();
+                new ExcelWriterFromDB(finderService).writeEachExcel();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

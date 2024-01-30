@@ -1,5 +1,6 @@
 package com.abrams.finder.service;
 
+import com.abrams.dto.RowObject;
 import com.abrams.dto.RowObjectGroupByTypeWork;
 import com.abrams.repository.CrudOperationsAbrams;
 import com.abrams.repository.CrudOperationsOperationImpl;
@@ -14,29 +15,40 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class ExcelWriterFromDB {
-    FinderService _finderService;
-    CrudOperationsAbrams _dbService;
+    private FinderService _finderService;
+    private CrudOperationsAbrams _dbService;
     private final String _fileLocation;
-    Optional<List<RowObjectGroupByTypeWork>> rows;
-
+    private Optional<List<RowObjectGroupByTypeWork>> rowsGroup;
+    private Optional<List<RowObject>> rowsEach;
 
 
     public ExcelWriterFromDB(FinderService finderService) {
-        _dbService=new CrudOperationsOperationImpl();
-        rows = _dbService.selectGroupByTypeWork();
+        _dbService = new CrudOperationsOperationImpl();
         _finderService = finderService;
-        _fileLocation = _finderService.get_rootFolder() +"/"+ _finderService.get_nameClientDir() + ".xlsx";
+        _fileLocation = _finderService.get_rootFolder() + "/" + _finderService.get_nameClientDir() + ".xlsx";
     }
 
-    public void writeExcel() throws IOException {
-
+    public void writeGroupExcel() throws IOException {
+        rowsGroup = _dbService.selectGroupByTypeWork();
         try (OutputStream os = Files.newOutputStream(Paths.get(_fileLocation));
              Workbook workbook = new Workbook(os, "MyApplication", "1.0")) {
 
             Worksheet sheet = workbook.newWorksheet("Sheet 1");
             createHeadSheet(sheet);
 
-            fillTableGroupValues(rows, sheet);
+            fillTableGroupValues(rowsGroup, sheet);
+        }
+    }
+
+    public void writeEachExcel() throws IOException {
+        rowsEach = _dbService.selectAll();
+        try (OutputStream os = Files.newOutputStream(Paths.get(_fileLocation));
+             Workbook workbook = new Workbook(os, "MyApplication", "1.0")) {
+
+            Worksheet sheet = workbook.newWorksheet("Sheet 1");
+            createHeadSheet(sheet);
+
+            fillTableEachValues(rowsEach, sheet);
         }
     }
 
@@ -46,7 +58,8 @@ public class ExcelWriterFromDB {
         sheet.value(0, 0, _finderService.get_nameClientDir());  // динам перем.
         sheet.value(1, 0, "Число");
         sheet.value(1, 1, "Тип заказа");
-        sheet.value(1, 2, "Квадратура");
+        sheet.value(1, 2, "Имя файла");
+        sheet.value(1, 3, "Квадратура");
     }
 
     private void fillTableGroupValues(Optional<List<RowObjectGroupByTypeWork>> rows, Worksheet ws) {
@@ -56,7 +69,21 @@ public class ExcelWriterFromDB {
             for (var element : rowsWork) {
                 ws.value(incrRows, 0, element.get_digitOfMonth());
                 ws.value(incrRows, 1, element.get_typeWork());
-                ws.value(incrRows, 2, element.getSquereMeters());
+                ws.value(incrRows, 3, element.getSquereMeters());
+                incrRows++;
+            }
+        }
+    }
+
+    private void fillTableEachValues(Optional<List<RowObject>> rows, Worksheet ws) {
+        int incrRows = 3;
+        if (rows.isPresent()) {
+            List<RowObject> rowsWork = rows.get();
+            for (var element : rowsWork) {
+                ws.value(incrRows, 0, element.get_digitOfMonth());
+                ws.value(incrRows, 1, element.get_typeWork());
+                ws.value(incrRows, 2, element.get_nameFile());
+                ws.value(incrRows, 3, element.get_squareMeters());
                 incrRows++;
             }
         }
