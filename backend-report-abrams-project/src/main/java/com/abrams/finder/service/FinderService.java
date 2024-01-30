@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class FinderService {
-    private CrudOperationsAbrams dbService;
+    private CrudOperationsAbrams _dbService;
     private String _rootFolder;
     private String _nameClientDir;
     private Predicate<Path> isArchive = UtilClass::isArchive;
@@ -21,8 +21,8 @@ public class FinderService {
     private TreeMap<String, Map<String, List<String>>> _dataResultMap;
 
     public FinderService(String nameClientDir, String rootFolder) throws IOException {
-        dbService=new CrudOperationsOperationImpl();
-        dbService.createTable();
+        _dbService =new CrudOperationsOperationImpl();
+        _dbService.createTable();
         _nameClientDir = nameClientDir;
         _rootFolder = rootFolder;
         _targetDirToSearch = getTargetDirectories(Paths.get(rootFolder));
@@ -52,6 +52,23 @@ public class FinderService {
         }
         return _dictionary;
     }
+
+//    public insertInDB() throws IOException {
+//        for (int i = 0; i < _targetDirToSearch.size(); i++) {
+//            Path _path = _targetDirToSearch.get(i);
+//            Map<String, List<String>> collected = Files.walk(_path)
+//                    .filter(Files::isRegularFile)
+//                    .filter(isArchive.negate())
+//                    .map(SelectedFile::new)
+//                    .collect(Collectors.
+//                            groupingBy(SelectedFile::getTypeWork,
+//                                    Collectors.
+//                                            mapping(SelectedFile::getName, Collectors.toList())));
+//            _dbService.insertValue(getParentNameDir(_path),);
+//            _dictionary.put(getParentNameDir(_path), collected);
+//        }
+
+//    }
 
     private String getParentNameDir(Path path) {
         int temp = path.getNameCount();
