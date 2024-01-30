@@ -3,7 +3,7 @@ package com.abrams.repository;
 import com.abrams.config.H2JDBCUtils;
 import com.abrams.dto.RowObject;
 import com.abrams.dto.RowObjectGroupByTypeWork;
-import com.abrams.finder.utils.UtilClass;
+import com.abrams.utils.UtilClass;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,10 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 public class CrudOperationsOperationImpl implements CrudOperationsAbrams {
+    private  static final String _dropTable="drop table report";
     private static final String _createTableSQL = "CREATE TABLE report (" +
-            "digit_of_month  varchar(20)," +
-            "type_work varchar(20)," +
-            "name_file varchar(20)," +
+            "digit_of_month  varchar," +
+            "type_work varchar," +
+            "name_file varchar," +
             "square_meters double)";
     private static final String _selectQuery = "select * from report";
 
@@ -73,6 +74,9 @@ public class CrudOperationsOperationImpl implements CrudOperationsAbrams {
                 rowObjects.add(
                         new RowObject(_digitOfMonth, _typeWork, _fileName, _squareMeters));
             }
+            connection.createStatement().execute(_dropTable);
+            connection.commit();
+
         } catch (SQLException e) {
             H2JDBCUtils.printSQLException(e);
         }
@@ -96,6 +100,8 @@ public class CrudOperationsOperationImpl implements CrudOperationsAbrams {
                 double _squareMeters= resultSet.getDouble(3);
                 rowObjects.add(new RowObjectGroupByTypeWork(_digitOfMonth,_typeWork,_squareMeters));
             }
+            connection.createStatement().execute(_dropTable);
+            connection.commit();
         } catch (SQLException e) {
             H2JDBCUtils.printSQLException(e);
         }

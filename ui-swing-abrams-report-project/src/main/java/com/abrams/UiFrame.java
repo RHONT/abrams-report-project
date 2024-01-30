@@ -1,6 +1,7 @@
 package com.abrams;
 
 import com.abrams.finder.service.ExcelWriter;
+import com.abrams.finder.service.ExcelWriterFromDB;
 import com.abrams.finder.service.FinderService;
 
 import javax.swing.*;
@@ -32,7 +33,8 @@ public class UiFrame extends JFrame {
 
             try {
                 FinderService finderService = new FinderService(_getNameClientText, _getCurrentDirText);
-                new ExcelWriter(finderService).writeExcel();
+//                new ExcelWriter(finderService).writeExcel();
+                new ExcelWriterFromDB(finderService).writeExcel();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
