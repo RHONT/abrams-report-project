@@ -45,6 +45,7 @@ public class UiFrame extends JFrame {
             refreshTextField();
             try {
                 FinderService finderService = new FinderService(_getNameClientText, _getCurrentDirText);
+
                 new ExcelWriterFromDB(finderService).writeGroupExcel();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -78,7 +79,5 @@ public class UiFrame extends JFrame {
     public static void main(String[] args) {
         UiFrame uiFrame = new UiFrame();
         uiFrame.setVisible(true);
-
-
     }
 }

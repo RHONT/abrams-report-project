@@ -28,14 +28,14 @@ public class FinderService {
         insertInDB();
     }
 
-    public List<Path> getTargetDirectories(Path targetPath) throws IOException {
+    private List<Path> getTargetDirectories(Path targetPath) throws IOException {
         return Files.walk(targetPath)
                 .filter(Files::isDirectory)
                 .filter(path -> path.getFileName().toString().equals(_nameClientDir))
                 .collect(Collectors.toList());
     }
 
-    public void insertInDB() throws IOException {
+    private void insertInDB() throws IOException {
         for (int i = 0; i < _targetDirToSearch.size(); i++) {
             Path _path = _targetDirToSearch.get(i);
             List<SelectedFile> collected = Files.walk(_path)
