@@ -22,6 +22,9 @@ public class UiFrame extends JFrame {
         setLocationRelativeTo(null); // Окно приложения центрируется относительно экрана
         setResizable(false); // запрещаем возможность растягивать окно
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        panel.setBackground(Color.lightGray);
+
+        Container container = getContentPane();
 
         JButton _reportGroup = getGroupingButton();
         JButton _reportEach = getEachButton();
@@ -30,47 +33,45 @@ public class UiFrame extends JFrame {
         panel.add(_currentDir);
         panel.add(_reportGroup);
         panel.add(_reportEach);
-        panel.setBackground(Color.lightGray);
-        Container container = getContentPane();
+
         container.add(panel);
     }
 
     private JButton getGroupingButton() {
-        JButton _reportB = new JButton("Сгруппированный");
-        _reportB.setVisible(true);
+        JButton _button = new JButton("Сгруппированный");
+        _button.setVisible(true);
 
-        _reportB.addActionListener(e -> {
-            _getCurrentDirText = _currentDir.getText();
-            _getNameClientText = _nameClient.getText();
-
+        _button.addActionListener(e -> {
+            refreshTextField();
             try {
                 FinderService finderService = new FinderService(_getNameClientText, _getCurrentDirText);
-//                new ExcelWriter(finderService).writeExcel();
                 new ExcelWriterFromDB(finderService).writeGroupExcel();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });
-        return _reportB;
+        return _button;
     }
 
     private JButton getEachButton() {
-        JButton _reportB = new JButton("Подробный");
-        _reportB.setVisible(true);
+        JButton _button = new JButton("Подробный");
+        _button.setVisible(true);
 
-        _reportB.addActionListener(e -> {
-            _getCurrentDirText = _currentDir.getText();
-            _getNameClientText = _nameClient.getText();
-
+        _button.addActionListener(e -> {
+            refreshTextField();
             try {
                 FinderService finderService = new FinderService(_getNameClientText, _getCurrentDirText);
-//                new ExcelWriter(finderService).writeExcel();
                 new ExcelWriterFromDB(finderService).writeEachExcel();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });
-        return _reportB;
+        return _button;
+    }
+
+    private void refreshTextField() {
+        _getCurrentDirText = _currentDir.getText();
+        _getNameClientText = _nameClient.getText();
     }
 
 
