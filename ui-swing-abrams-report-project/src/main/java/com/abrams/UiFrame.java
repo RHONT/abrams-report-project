@@ -36,7 +36,7 @@ public class UiFrame extends JFrame {
     }
 
     private JButton getGroupingButton() {
-        JButton _reportB = new JButton("Отчет");
+        JButton _reportB = new JButton("Сгруппированный");
         _reportB.setVisible(true);
 
         _reportB.addActionListener(e -> {
