@@ -36,7 +36,7 @@ public class ExcelWriterFromDB {
             Worksheet sheet = workbook.newWorksheet("Sheet 1");
             createHeadSheet(sheet);
 
-            fillTableValues(rows, sheet);
+            fillTableGroupValues(rows, sheet);
         }
     }
 
@@ -49,7 +49,7 @@ public class ExcelWriterFromDB {
         sheet.value(1, 2, "Квадратура");
     }
 
-    private void fillTableValues( Optional<List<RowObjectGroupByTypeWork>> rows, Worksheet ws) {
+    private void fillTableGroupValues(Optional<List<RowObjectGroupByTypeWork>> rows, Worksheet ws) {
         int incrRows = 3;
         if (rows.isPresent()) {
             List<RowObjectGroupByTypeWork> rowsWork = rows.get();
