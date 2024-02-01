@@ -63,9 +63,9 @@ public class ExcelCreatorFromDB {
     private void fillTableGroupValues(List<GroupedCustomerOrder> rows, Worksheet ws) {
         int incrRows = 3;
         for (var element : rows) {
-            ws.value(incrRows, 0, element.get_digitOfMonth());
-            ws.value(incrRows, 1, element.get_typeWork());
-            ws.value(incrRows, 3, element.getSquereMeters());
+            ws.value(incrRows, 0, element.getDigitOfMonth());
+            ws.value(incrRows, 1, element.getTypeWork());
+            ws.value(incrRows, 3, element.getSquareMeters());
             incrRows++;
         }
     }

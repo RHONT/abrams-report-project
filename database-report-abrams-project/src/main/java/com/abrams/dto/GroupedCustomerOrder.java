@@ -8,24 +8,24 @@ import com.abrams.service.CrudOperationsOperationImpl;
 public class GroupedCustomerOrder {
     private final String _digitOfMonth;
     private final String _typeWork;
-    private final double squereMeters;
+    private final double squareMeters;
 
-    public GroupedCustomerOrder(String _digitOfMonth, String _typeWork, double squereMeters) {
+    public GroupedCustomerOrder(String _digitOfMonth, String _typeWork, double squareMeters) {
         this._digitOfMonth = _digitOfMonth;
         this._typeWork = _typeWork;
-        this.squereMeters = squereMeters;
+        this.squareMeters = squareMeters;
     }
 
-    public String get_digitOfMonth() {
+    public String getDigitOfMonth() {
         return _digitOfMonth;
     }
 
-    public String get_typeWork() {
+    public String getTypeWork() {
         return _typeWork;
     }
 
-    public double getSquereMeters() {
-        return squereMeters;
+    public double getSquareMeters() {
+        return squareMeters;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class GroupedCustomerOrder {
         return "RowObjectGroupByTypeWork{" +
                 "_digitOfMonth='" + _digitOfMonth + '\'' +
                 ", _typeWork='" + _typeWork + '\'' +
-                ", squereMeters=" + squereMeters +
+                ", squereMeters=" + squareMeters +
                 '}';
     }
 }

@@ -5,13 +5,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class H2JDBCUtils {
-    private static String jdbcURL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MySQL";
-    private static String jdbcUsername = "sa";
-    private static String jdbcPassword = "";
-
     public static Connection getConnection() {
         Connection connection = null;
         try {
+            String jdbcURL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MySQL";
+            String jdbcUsername = "sa";
+            String jdbcPassword = "";
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
         } catch (SQLException e) {
             printSQLException(e);
