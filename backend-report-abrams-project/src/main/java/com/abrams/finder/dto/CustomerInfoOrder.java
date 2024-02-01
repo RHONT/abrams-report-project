@@ -6,9 +6,9 @@ import java.nio.file.Path;
  * Entity to save to database "report"
  */
 public class CustomerInfoOrder {
-    private String _digitOfMonth;
-    private String _typeWork;
-    private String _fileName;
+    private final String _digitOfMonth;
+    private final String _typeWork;
+    private final String _fileName;
 
     public CustomerInfoOrder(Path path) {
         _fileName = path.getFileName().toString();

@@ -16,11 +16,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class ExcelCreatorFromDB {
-    private CrudOperationsAbrams _dbService;
+    private final CrudOperationsAbrams _dbService;
     private final String _fileLocation;
-    private Optional<List<GroupedCustomerOrder>> rowsGroup;
-    private Optional<List<SingleCustomersOrder>> rowsEach;
-    private String _customerName;
+    private final String _customerName;
 
 
     public ExcelCreatorFromDB(String customerName, String folderSave) {
@@ -30,26 +28,25 @@ public class ExcelCreatorFromDB {
     }
 
     public void createGroupReportByDigitMontAndTypeWork() throws IOException {
-        rowsGroup = _dbService.selectGroupByTypeWork();
+        Optional<List<GroupedCustomerOrder>> rowsGroup = _dbService.selectGroupByTypeWork();
         try (OutputStream os = Files.newOutputStream(Paths.get(_fileLocation));
              Workbook workbook = new Workbook(os, "MyApplication", "1.0")) {
 
             Worksheet sheet = workbook.newWorksheet("Sheet 1");
             createHeadSheet(sheet);
-
-            fillTableGroupValues(rowsGroup, sheet);
+            rowsGroup.ifPresent(groupedCustomerOrders -> fillTableGroupValues(groupedCustomerOrders, sheet));
         }
     }
 
     public void createDetailedReport() throws IOException {
-        rowsEach = _dbService.selectAll();
+        Optional<List<SingleCustomersOrder>> rowsEach = _dbService.selectAll();
         try (OutputStream os = Files.newOutputStream(Paths.get(_fileLocation));
              Workbook workbook = new Workbook(os, "MyApplication", "1.0")) {
 
             Worksheet sheet = workbook.newWorksheet("Sheet 1");
             createHeadSheet(sheet);
 
-            fillTableEachValues(rowsEach, sheet);
+            rowsEach.ifPresent(singleCustomersOrders -> fillTableEachValues(singleCustomersOrders, sheet));
         }
     }
 
@@ -63,30 +60,24 @@ public class ExcelCreatorFromDB {
         sheet.value(1, 3, "Квадратура");
     }
 
-    private void fillTableGroupValues(Optional<List<GroupedCustomerOrder>> rows, Worksheet ws) {
+    private void fillTableGroupValues(List<GroupedCustomerOrder> rows, Worksheet ws) {
         int incrRows = 3;
-        if (rows.isPresent()) {
-            List<GroupedCustomerOrder> rowsWork = rows.get();
-            for (var element : rowsWork) {
-                ws.value(incrRows, 0, element.get_digitOfMonth());
-                ws.value(incrRows, 1, element.get_typeWork());
-                ws.value(incrRows, 3, element.getSquereMeters());
-                incrRows++;
-            }
+        for (var element : rows) {
+            ws.value(incrRows, 0, element.get_digitOfMonth());
+            ws.value(incrRows, 1, element.get_typeWork());
+            ws.value(incrRows, 3, element.getSquereMeters());
+            incrRows++;
         }
     }
 
-    private void fillTableEachValues(Optional<List<SingleCustomersOrder>> rows, Worksheet ws) {
+    private void fillTableEachValues(List<SingleCustomersOrder> rows, Worksheet ws) {
         int incrRows = 3;
-        if (rows.isPresent()) {
-            List<SingleCustomersOrder> rowsWork = rows.get();
-            for (var element : rowsWork) {
-                ws.value(incrRows, 0, element.get_digitOfMonth());
-                ws.value(incrRows, 1, element.get_typeWork());
-                ws.value(incrRows, 2, element.get_nameFile());
-                ws.value(incrRows, 3, element.get_squareMeters());
-                incrRows++;
-            }
+        for (var element : rows) {
+            ws.value(incrRows, 0, element.get_digitOfMonth());
+            ws.value(incrRows, 1, element.get_typeWork());
+            ws.value(incrRows, 2, element.get_nameFile());
+            ws.value(incrRows, 3, element.get_squareMeters());
+            incrRows++;
         }
     }
 

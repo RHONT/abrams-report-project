@@ -10,10 +10,8 @@ import java.awt.*;
 import java.io.IOException;
 
 public class UiFrame extends JFrame {
-    private JPanel panel = new JPanel(new GridLayout(4, 1));
-
-    private JTextField _nameClient = new JTextField();
-    private JTextField _currentDir = new JTextField();
+    private final JTextField _nameClient = new JTextField();
+    private final JTextField _currentDir = new JTextField();
     private String _getNameClientText;
     private String _getCurrentDirText;
 
@@ -24,6 +22,8 @@ public class UiFrame extends JFrame {
         setLocationRelativeTo(null); // Окно приложения центрируется относительно экрана
         setResizable(false); // запрещаем возможность растягивать окно
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel panel = new JPanel(new GridLayout(4, 1));
         panel.setBackground(Color.lightGray);
 
         Container container = getContentPane();

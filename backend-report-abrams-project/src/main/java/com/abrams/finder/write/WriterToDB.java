@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 
 public class WriterToDB {
     FinderFiles _finderFiles;
-    private CrudOperationsAbrams _dbService;
+    private final CrudOperationsAbrams _dbService;
 
     public WriterToDB(FinderFiles finderFiles) throws IOException {
         _finderFiles = finderFiles;
@@ -20,8 +20,7 @@ public class WriterToDB {
         writeToDB();
     }
 
-    //todo получить ответ от бд об успешности операции
-    private boolean writeToDB() throws IOException {
+    private void writeToDB() throws IOException {
         List<CustomerInfoOrder> resultInfoFilesList = _finderFiles.getResultFilesList();
         try {
             for (var element : resultInfoFilesList) {
@@ -30,7 +29,6 @@ public class WriterToDB {
         } catch (Exception e) {
             throw new NoSuchElementException("Having problems saving the list to the database");
         }
-        return true;
     }
 }
 

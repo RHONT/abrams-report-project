@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FinderDirectoriesByName extends Finder {
-
     private final String _nameClientDir;
 
     public FinderDirectoriesByName(String nameClientDir, String rootFolder){
