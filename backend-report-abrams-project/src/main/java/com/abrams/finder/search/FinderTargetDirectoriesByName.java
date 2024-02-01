@@ -6,11 +6,11 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FinderTargetDirectories extends Finder {
+public class FinderTargetDirectoriesByName extends Finder {
 
     private final String _nameClientDir;
 
-    public FinderTargetDirectories(String nameClientDir, String rootFolder){
+    public FinderTargetDirectoriesByName(String nameClientDir, String rootFolder){
         _nameClientDir = nameClientDir;
         _rootPath = rootFolder;
     }

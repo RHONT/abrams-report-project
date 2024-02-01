@@ -1,8 +1,7 @@
-package com.abrams.finder.write;
+package com.abrams.finder.creatorsreports;
 
 import com.abrams.dto.RowObject;
 import com.abrams.dto.RowObjectGroupByTypeWork;
-import com.abrams.finder.service.FinderService;
 import com.abrams.repository.CrudOperationsAbrams;
 import com.abrams.repository.CrudOperationsOperationImpl;
 import org.dhatim.fastexcel.Color;
@@ -16,21 +15,21 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
-public class ExcelWriterFromDBTest {
+public class ExcelCreatorFromDB {
     private CrudOperationsAbrams _dbService;
     private final String _fileLocation;
     private Optional<List<RowObjectGroupByTypeWork>> rowsGroup;
     private Optional<List<RowObject>> rowsEach;
-    private String _clientName;
+    private String _customerName;
 
 
-    public ExcelWriterFromDBTest(String rootFolder, String clientName) {
-        _clientName=clientName;
+    public ExcelCreatorFromDB(String customerName, String folderSave) {
+        _customerName = customerName;
         _dbService = new CrudOperationsOperationImpl();
-        _fileLocation = rootFolder + "/" + clientName + ".xlsx";
+        _fileLocation = folderSave + "/" + customerName + ".xlsx";
     }
 
-    public void writeGroupExcel() throws IOException {
+    public void createGroupReportByDigitMontAndTypeWork() throws IOException {
         rowsGroup = _dbService.selectGroupByTypeWork();
         try (OutputStream os = Files.newOutputStream(Paths.get(_fileLocation));
              Workbook workbook = new Workbook(os, "MyApplication", "1.0")) {
@@ -42,7 +41,7 @@ public class ExcelWriterFromDBTest {
         }
     }
 
-    public void writeEachExcel() throws IOException {
+    public void createDetailedReport() throws IOException {
         rowsEach = _dbService.selectAll();
         try (OutputStream os = Files.newOutputStream(Paths.get(_fileLocation));
              Workbook workbook = new Workbook(os, "MyApplication", "1.0")) {
@@ -57,7 +56,7 @@ public class ExcelWriterFromDBTest {
     private void createHeadSheet(Worksheet sheet) {
         sheet.range(0, 0, 0, 1).style().fontName("Arial").
                 fontSize(16).bold().fillColor(Color.LIGHT_GREEN).merge().set();
-        sheet.value(0, 0, _clientName);  // динам перем.
+        sheet.value(0, 0, _customerName);  // динам перем.
         sheet.value(1, 0, "Число");
         sheet.value(1, 1, "Тип заказа");
         sheet.value(1, 2, "Имя файла");

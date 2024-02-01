@@ -1,19 +1,19 @@
-package com.abrams.finder.dto;
+package com.abrams.finder.entity;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class InfoAboutFileByNameAndParentNameDirectory {
-    private String _fileName;
-    private String _typeWork;
+/**
+ * Entity to save to database "report"
+ */
+public class CustomerInfoOrder {
     private String _digitOfMonth;
+    private String _typeWork;
+    private String _fileName;
 
-    public InfoAboutFileByNameAndParentNameDirectory(Path path) {
-        if (Files.isRegularFile(path)) {
-            _fileName = path.getFileName().toString();
-        }
+    public CustomerInfoOrder(Path path) {
+        _fileName = path.getFileName().toString();
         _typeWork = getDirName(path);
-        _digitOfMonth=getDirNameUpOneLevel(path);
+        _digitOfMonth = getDirNameUpTwoLevel(path);
     }
 
     private String getDirName(Path path) {
@@ -21,9 +21,9 @@ public class InfoAboutFileByNameAndParentNameDirectory {
         return path.getName(temp - 2).toString();
     }
 
-    private String getDirNameUpOneLevel(Path path) {
+    private String getDirNameUpTwoLevel(Path path) {
         int temp = path.getNameCount();
-        return path.getName(temp - 3).toString();
+        return path.getName(temp - 4).toString();
     }
 
     public String getName() {

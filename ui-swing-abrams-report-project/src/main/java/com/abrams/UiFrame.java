@@ -1,7 +1,9 @@
 package com.abrams;
 
-import com.abrams.finder.service.ExcelWriterFromDB;
-import com.abrams.finder.service.FinderService;
+import com.abrams.finder.search.FinderTargetDirectoriesByName;
+import com.abrams.finder.search.FinderTargetFiles;
+import com.abrams.finder.creatorsreports.ExcelCreatorFromDB;
+import com.abrams.finder.write.WriterToDB;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,9 +46,9 @@ public class UiFrame extends JFrame {
         _button.addActionListener(e -> {
             refreshTextField();
             try {
-                FinderService finderService = new FinderService(_getNameClientText, _getCurrentDirText);
+                writeDataToDB();
 
-                new ExcelWriterFromDB(finderService).writeGroupExcel();
+                new ExcelCreatorFromDB(_getNameClientText,_getCurrentDirText).createGroupReportByDigitMontAndTypeWork();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -61,13 +63,19 @@ public class UiFrame extends JFrame {
         _button.addActionListener(e -> {
             refreshTextField();
             try {
-                FinderService finderService = new FinderService(_getNameClientText, _getCurrentDirText);
-                new ExcelWriterFromDB(finderService).writeEachExcel();
+                writeDataToDB();
+                new ExcelCreatorFromDB(_getNameClientText,_getCurrentDirText).createDetailedReport();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });
         return _button;
+    }
+
+    private void writeDataToDB() throws IOException {
+        new WriterToDB(
+                new FinderTargetFiles(
+                        new FinderTargetDirectoriesByName(_getNameClientText, _getCurrentDirText)));
     }
 
     private void refreshTextField() {
