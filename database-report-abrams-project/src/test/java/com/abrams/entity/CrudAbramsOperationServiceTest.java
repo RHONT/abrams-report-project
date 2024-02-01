@@ -1,10 +1,9 @@
 package com.abrams.entity;
 
-import com.abrams.service.CrudAbramsOperationService;
-import org.junit.jupiter.api.Test;
-
-import java.sql.SQLException;
-
+import com.abrams.repository.CrudOperationsAbrams;
+import com.abrams.service.CrudOperationsOperationImpl;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CrudAbramsOperationServiceTest {
 
@@ -17,13 +16,12 @@ class CrudAbramsOperationServiceTest {
     }
 
     @Test
-    void selectAll() throws SQLException {
-        CrudAbramsOperationService crudAbramsOperationService =new CrudAbramsOperationService();
-        crudAbramsOperationService.createTable();
-        crudAbramsOperationService.insertValue("1","10","500x500 1.pdf,");
-        crudAbramsOperationService.insertValue("1","10","1000x2000 1.pdf");
-        crudAbramsOperationService.insertValue("3","3","33");
-        System.out.println(crudAbramsOperationService.selectGroupByTypeWork().get());
-//        System.out.println(h2Operation.selectAll().get());
+    void selectAll() {
+        CrudOperationsAbrams crudOperations =new CrudOperationsOperationImpl();
+        crudOperations.createTable();
+        crudOperations.insertValue("1","10","500x500 1.pdf,");
+        crudOperations.insertValue("1","10","1000x2000 1.pdf");
+        crudOperations.insertValue("3","3","33");
+        assertEquals(3, crudOperations.selectAll().get().size());
     }
 }

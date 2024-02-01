@@ -1,9 +1,10 @@
-package com.abrams.repository;
+package com.abrams.service;
 
 import com.abrams.config.H2JDBCUtils;
-import com.abrams.dto.RowObject;
-import com.abrams.dto.RowObjectGroupByTypeWork;
-import com.abrams.utils.UtilClass;
+import com.abrams.entity.SingleCustomersOrder;
+import com.abrams.entity.GroupedCustomerOrder;
+import com.abrams.repository.CrudOperationsAbrams;
+import com.abrams.utils.CalcSquareMeters;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,18 +12,23 @@ import java.util.List;
 import java.util.Optional;
 
 public class CrudOperationsOperationImpl implements CrudOperationsAbrams {
-    private  static final String _dropTable="drop table report";
-    private static final String _createTableSQL = "CREATE TABLE report (" +
+    private static final String _dropTable = "drop table report";
+    private static final String _createTableSQL = "" +
+            "CREATE TABLE report (" +
             "digit_of_month  varchar," +
             "type_work varchar," +
             "name_file varchar," +
             "square_meters double)";
     private static final String _selectQuery = "select * from report";
 
-    private static final String _insertQuery = "INSERT INTO report (" +
+    private static final String _insertQuery = "" +
+            "INSERT INTO report (" +
             "digit_of_month,type_work, name_file,square_meters) values" + "(?,?,?,?)";
 
-    private static final String _selectCustomQuery = "select digit_of_month,type_work, sum(square_meters) from report group by digit_of_month,type_work";
+    private static final String _selectGroupQuery = "" +
+            "select digit_of_month,type_work, sum(square_meters) " +
+            "from report " +
+            "group by digit_of_month,type_work";
 
     @Override
     public void createTable() {
@@ -45,7 +51,7 @@ public class CrudOperationsOperationImpl implements CrudOperationsAbrams {
             insertPreparedStatement.setString(1, digit_of_month);
             insertPreparedStatement.setString(2, type_work);
             insertPreparedStatement.setString(3, name_file);
-            insertPreparedStatement.setDouble(4, UtilClass.getSquareMeters(name_file));
+            insertPreparedStatement.setDouble(4, CalcSquareMeters.getSquareMeters(name_file));
             insertPreparedStatement.executeUpdate();
             insertPreparedStatement.close();
         } catch (SQLException e) {
@@ -54,9 +60,9 @@ public class CrudOperationsOperationImpl implements CrudOperationsAbrams {
     }
 
     @Override
-    public Optional<List<RowObject>> selectAll() {
+    public Optional<List<SingleCustomersOrder>> selectAll() {
         ResultSet resultSet;
-        List<RowObject> rowObjects = new ArrayList<>();
+        List<SingleCustomersOrder> singleCustomersOrders = new ArrayList<>();
         PreparedStatement selectPreparedStatement;
 
         try (Connection connection = H2JDBCUtils.getConnection();) {
@@ -68,8 +74,8 @@ public class CrudOperationsOperationImpl implements CrudOperationsAbrams {
                 String _typeWork = resultSet.getString(2);
                 String _fileName = resultSet.getString(3);
                 double _squareMeters = resultSet.getDouble(4);
-                rowObjects.add(
-                        new RowObject(_digitOfMonth, _typeWork, _fileName, _squareMeters));
+                singleCustomersOrders.add(
+                        new SingleCustomersOrder(_digitOfMonth, _typeWork, _fileName, _squareMeters));
             }
             connection.createStatement().execute(_dropTable);
             connection.commit();
@@ -77,25 +83,25 @@ public class CrudOperationsOperationImpl implements CrudOperationsAbrams {
         } catch (SQLException e) {
             H2JDBCUtils.printSQLException(e);
         }
-        return Optional.of(rowObjects);
+        return Optional.of(singleCustomersOrders);
     }
 
     @Override
-    public Optional<List<RowObjectGroupByTypeWork>> selectGroupByTypeWork() {
+    public Optional<List<GroupedCustomerOrder>> selectGroupByTypeWork() {
         ResultSet resultSet;
-        List<RowObjectGroupByTypeWork> rowObjects = new ArrayList<>();
+        List<GroupedCustomerOrder> rowObjects = new ArrayList<>();
         PreparedStatement selectPreparedStatement;
 
         try (Connection connection = H2JDBCUtils.getConnection();) {
 
-            selectPreparedStatement = connection.prepareStatement(_selectCustomQuery);
+            selectPreparedStatement = connection.prepareStatement(_selectGroupQuery);
             resultSet = selectPreparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                String _digitOfMonth=resultSet.getString("digit_of_month");
-                String _typeWork=resultSet.getString("type_work");
-                double _squareMeters= resultSet.getDouble(3);
-                rowObjects.add(new RowObjectGroupByTypeWork(_digitOfMonth,_typeWork,_squareMeters));
+                String _digitOfMonth = resultSet.getString("digit_of_month");
+                String _typeWork = resultSet.getString("type_work");
+                double _squareMeters = resultSet.getDouble(3);
+                rowObjects.add(new GroupedCustomerOrder(_digitOfMonth, _typeWork, _squareMeters));
             }
             connection.createStatement().execute(_dropTable);
             connection.commit();

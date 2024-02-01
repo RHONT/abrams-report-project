@@ -1,9 +1,9 @@
 package com.abrams.finder.creatorsreports;
 
-import com.abrams.dto.RowObject;
-import com.abrams.dto.RowObjectGroupByTypeWork;
+import com.abrams.entity.SingleCustomersOrder;
+import com.abrams.entity.GroupedCustomerOrder;
 import com.abrams.repository.CrudOperationsAbrams;
-import com.abrams.repository.CrudOperationsOperationImpl;
+import com.abrams.service.CrudOperationsOperationImpl;
 import org.dhatim.fastexcel.Color;
 import org.dhatim.fastexcel.Workbook;
 import org.dhatim.fastexcel.Worksheet;
@@ -18,8 +18,8 @@ import java.util.Optional;
 public class ExcelCreatorFromDB {
     private CrudOperationsAbrams _dbService;
     private final String _fileLocation;
-    private Optional<List<RowObjectGroupByTypeWork>> rowsGroup;
-    private Optional<List<RowObject>> rowsEach;
+    private Optional<List<GroupedCustomerOrder>> rowsGroup;
+    private Optional<List<SingleCustomersOrder>> rowsEach;
     private String _customerName;
 
 
@@ -63,10 +63,10 @@ public class ExcelCreatorFromDB {
         sheet.value(1, 3, "Квадратура");
     }
 
-    private void fillTableGroupValues(Optional<List<RowObjectGroupByTypeWork>> rows, Worksheet ws) {
+    private void fillTableGroupValues(Optional<List<GroupedCustomerOrder>> rows, Worksheet ws) {
         int incrRows = 3;
         if (rows.isPresent()) {
-            List<RowObjectGroupByTypeWork> rowsWork = rows.get();
+            List<GroupedCustomerOrder> rowsWork = rows.get();
             for (var element : rowsWork) {
                 ws.value(incrRows, 0, element.get_digitOfMonth());
                 ws.value(incrRows, 1, element.get_typeWork());
@@ -76,10 +76,10 @@ public class ExcelCreatorFromDB {
         }
     }
 
-    private void fillTableEachValues(Optional<List<RowObject>> rows, Worksheet ws) {
+    private void fillTableEachValues(Optional<List<SingleCustomersOrder>> rows, Worksheet ws) {
         int incrRows = 3;
         if (rows.isPresent()) {
-            List<RowObject> rowsWork = rows.get();
+            List<SingleCustomersOrder> rowsWork = rows.get();
             for (var element : rowsWork) {
                 ws.value(incrRows, 0, element.get_digitOfMonth());
                 ws.value(incrRows, 1, element.get_typeWork());

@@ -1,11 +1,16 @@
-package com.abrams.dto;
+package com.abrams.entity;
 
-public class RowObjectGroupByTypeWork {
+import com.abrams.service.CrudOperationsOperationImpl;
+
+/**
+ * The object returned from the database by the method {@link CrudOperationsOperationImpl#selectGroupByTypeWork()}
+ */
+public class GroupedCustomerOrder {
     private final String _digitOfMonth;
     private final String _typeWork;
     private final double squereMeters;
 
-    public RowObjectGroupByTypeWork(String _digitOfMonth, String _typeWork, double squereMeters) {
+    public GroupedCustomerOrder(String _digitOfMonth, String _typeWork, double squereMeters) {
         this._digitOfMonth = _digitOfMonth;
         this._typeWork = _typeWork;
         this.squereMeters = squereMeters;

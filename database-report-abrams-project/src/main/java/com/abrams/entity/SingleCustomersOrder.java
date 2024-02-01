@@ -1,13 +1,17 @@
-package com.abrams.dto;
+package com.abrams.entity;
 
+import com.abrams.service.CrudOperationsOperationImpl;
 
-public class RowObject {
+/**
+ * The object returned from the database by the method {@link CrudOperationsOperationImpl#selectAll()}
+ */
+public class SingleCustomersOrder {
     private final String _digitOfMonth;
     private final String _typeWork;
     private final String _nameFile;
     private final double _squareMeters;
 
-    public RowObject(String _digitOfMonth, String _typeWork, String _nameFile, double _squareMeters) {
+    public SingleCustomersOrder(String _digitOfMonth, String _typeWork, String _nameFile, double _squareMeters) {
         this._digitOfMonth = _digitOfMonth;
         this._typeWork = _typeWork;
         this._nameFile = _nameFile;
