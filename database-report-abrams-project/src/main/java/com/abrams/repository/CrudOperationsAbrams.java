@@ -1,8 +1,8 @@
 package com.abrams.repository;
 
 
-import com.abrams.entity.SingleCustomersOrder;
-import com.abrams.entity.GroupedCustomerOrder;
+import com.abrams.dto.SingleCustomersOrder;
+import com.abrams.dto.GroupedCustomerOrder;
 
 import java.util.List;
 import java.util.Optional;

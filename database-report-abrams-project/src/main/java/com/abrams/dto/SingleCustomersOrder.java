@@ -1,9 +1,9 @@
-package com.abrams.entity;
+package com.abrams.dto;
 
 import com.abrams.service.CrudOperationsOperationImpl;
 
 /**
- * The object returned from the database by the method {@link CrudOperationsOperationImpl#selectAll()}
+ * The DTO returned from the database by the method {@link CrudOperationsOperationImpl#selectAll()}
  */
 public class SingleCustomersOrder {
     private final String _digitOfMonth;

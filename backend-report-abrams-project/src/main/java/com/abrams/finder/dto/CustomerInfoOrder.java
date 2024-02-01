@@ -1,4 +1,4 @@
-package com.abrams.finder.entity;
+package com.abrams.finder.dto;
 
 import java.nio.file.Path;
 

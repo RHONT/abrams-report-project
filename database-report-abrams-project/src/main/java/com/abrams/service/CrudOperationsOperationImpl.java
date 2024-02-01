@@ -1,8 +1,8 @@
 package com.abrams.service;
 
 import com.abrams.config.H2JDBCUtils;
-import com.abrams.entity.SingleCustomersOrder;
-import com.abrams.entity.GroupedCustomerOrder;
+import com.abrams.dto.SingleCustomersOrder;
+import com.abrams.dto.GroupedCustomerOrder;
 import com.abrams.repository.CrudOperationsAbrams;
 import com.abrams.utils.CalcSquareMeters;
 

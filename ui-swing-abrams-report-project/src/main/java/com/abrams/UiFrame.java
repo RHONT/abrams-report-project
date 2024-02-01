@@ -1,7 +1,7 @@
 package com.abrams;
 
-import com.abrams.finder.search.FinderTargetDirectoriesByName;
-import com.abrams.finder.search.FinderTargetFiles;
+import com.abrams.finder.search.FinderDirectoriesByName;
+import com.abrams.finder.search.FinderFiles;
 import com.abrams.finder.creatorsreports.ExcelCreatorFromDB;
 import com.abrams.finder.write.WriterToDB;
 
@@ -74,8 +74,8 @@ public class UiFrame extends JFrame {
 
     private void writeDataToDB() throws IOException {
         new WriterToDB(
-                new FinderTargetFiles(
-                        new FinderTargetDirectoriesByName(_getNameClientText, _getCurrentDirText)));
+                new FinderFiles(
+                        new FinderDirectoriesByName(_getNameClientText, _getCurrentDirText)));
     }
 
     private void refreshTextField() {

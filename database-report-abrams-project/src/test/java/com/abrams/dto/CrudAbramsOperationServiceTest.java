@@ -1,4 +1,4 @@
-package com.abrams.entity;
+package com.abrams.dto;
 
 import com.abrams.repository.CrudOperationsAbrams;
 import com.abrams.service.CrudOperationsOperationImpl;

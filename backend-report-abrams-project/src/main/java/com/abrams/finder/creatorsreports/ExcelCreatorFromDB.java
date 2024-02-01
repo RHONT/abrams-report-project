@@ -1,7 +1,7 @@
 package com.abrams.finder.creatorsreports;
 
-import com.abrams.entity.SingleCustomersOrder;
-import com.abrams.entity.GroupedCustomerOrder;
+import com.abrams.dto.SingleCustomersOrder;
+import com.abrams.dto.GroupedCustomerOrder;
 import com.abrams.repository.CrudOperationsAbrams;
 import com.abrams.service.CrudOperationsOperationImpl;
 import org.dhatim.fastexcel.Color;
