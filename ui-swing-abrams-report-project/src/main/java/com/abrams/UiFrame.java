@@ -1,8 +1,9 @@
 package com.abrams;
 
+import com.abrams.finder.creatorsreports.ExcelEachCustomer;
+import com.abrams.finder.creatorsreports.ExcelGroupCustomer;
 import com.abrams.finder.search.FinderDirectoriesByName;
 import com.abrams.finder.search.FinderFiles;
-import com.abrams.finder.creatorsreports.ExcelCreatorFromDB;
 import com.abrams.finder.write.WriterToDB;
 
 import javax.swing.*;
@@ -46,9 +47,8 @@ public class UiFrame extends JFrame {
         _button.addActionListener(e -> {
             refreshTextField();
             try {
-                writeDataToDB();
-
-                new ExcelCreatorFromDB(_getNameClientText,_getCurrentDirText).createGroupReportByDigitMontAndTypeWork();
+                writeCustomersToDB();
+                new ExcelGroupCustomer(_getNameClientText,_getCurrentDirText).save();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -63,8 +63,8 @@ public class UiFrame extends JFrame {
         _button.addActionListener(e -> {
             refreshTextField();
             try {
-                writeDataToDB();
-                new ExcelCreatorFromDB(_getNameClientText,_getCurrentDirText).createDetailedReport();
+                writeCustomersToDB();
+                new ExcelEachCustomer(_getNameClientText,_getCurrentDirText).save();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -72,7 +72,7 @@ public class UiFrame extends JFrame {
         return _button;
     }
 
-    private void writeDataToDB() throws IOException {
+    private void writeCustomersToDB() throws IOException {
         new WriterToDB(
                 new FinderFiles(
                         new FinderDirectoriesByName(_getNameClientText, _getCurrentDirText)));
