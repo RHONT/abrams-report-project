@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class selectAllCustomerReport extends Report<SingleCustomersOrder> {
-    public selectAllCustomerReport(String fileName, String DirectoryForSave) {
+public class SelectAllCustomerReport extends Report<SingleCustomersOrder> {
+    public SelectAllCustomerReport(String fileName, String DirectoryForSave) {
         super(DirectoryForSave, fileName);
     }
 

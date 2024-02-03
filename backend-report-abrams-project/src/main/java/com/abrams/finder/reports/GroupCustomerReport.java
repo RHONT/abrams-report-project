@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class groupCustomerReport extends Report<GroupedCustomerOrder> {
-    public groupCustomerReport(String fileName, String DirectoryForSave) {
+public class GroupCustomerReport extends Report<GroupedCustomerOrder> {
+    public GroupCustomerReport(String fileName, String DirectoryForSave) {
         super(DirectoryForSave, fileName);
     }
 

@@ -1,7 +1,7 @@
 package com.abrams;
 
-import com.abrams.finder.reports.selectAllCustomerReport;
-import com.abrams.finder.reports.groupCustomerReport;
+import com.abrams.finder.reports.SelectAllCustomerReport;
+import com.abrams.finder.reports.GroupCustomerReport;
 import com.abrams.finder.search.FinderDirectoriesByName;
 import com.abrams.finder.search.FinderFiles;
 import com.abrams.finder.write.WriterToDB;
@@ -48,7 +48,7 @@ public class UiFrame extends JFrame {
             refreshTextField();
             try {
                 writeCustomersToDB();
-                new groupCustomerReport(_getNameClientText,_getCurrentDirText).save();
+                new GroupCustomerReport(_getNameClientText,_getCurrentDirText).save();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -64,7 +64,7 @@ public class UiFrame extends JFrame {
             refreshTextField();
             try {
                 writeCustomersToDB();
-                new selectAllCustomerReport(_getNameClientText,_getCurrentDirText).save();
+                new SelectAllCustomerReport(_getNameClientText,_getCurrentDirText).save();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
