@@ -1,4 +1,4 @@
-package com.abrams.finder.creatorsreports;
+package com.abrams.finder.reports;
 
 import com.abrams.dto.GroupedCustomerOrder;
 import org.dhatim.fastexcel.Color;
@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class ExcelGroupCustomer extends ExcelCreator<GroupedCustomerOrder>{
-    public ExcelGroupCustomer(String fileName, String DirectoryForSave) {
+public class groupCustomerReport extends Report<GroupedCustomerOrder> {
+    public groupCustomerReport(String fileName, String DirectoryForSave) {
         super(DirectoryForSave, fileName);
     }
 

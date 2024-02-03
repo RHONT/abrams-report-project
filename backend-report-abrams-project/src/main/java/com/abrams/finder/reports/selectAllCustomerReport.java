@@ -1,4 +1,4 @@
-package com.abrams.finder.creatorsreports;
+package com.abrams.finder.reports;
 
 import com.abrams.dto.SingleCustomersOrder;
 import org.dhatim.fastexcel.Color;
@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class ExcelEachCustomer extends ExcelCreator<SingleCustomersOrder>{
-    public ExcelEachCustomer(String fileName, String DirectoryForSave) {
+public class selectAllCustomerReport extends Report<SingleCustomersOrder> {
+    public selectAllCustomerReport(String fileName, String DirectoryForSave) {
         super(DirectoryForSave, fileName);
     }
 
