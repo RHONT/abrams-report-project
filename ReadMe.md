@@ -66,9 +66,9 @@
 Две кнопки:
 - "Подробный" (Выводит отчет по каждой позиции отдельно)
 - "Сгруппированный" (Группирует по числу и по типу работы)  
-![img.png](images/Ui%202.png)
-![img.png](images/details-report.png)
-- ![img.png](images/group-report.png)
+![img.png](images/ui%203.png)  
+![img.png](images/details-report.png)  
+![img.png](images/group-report.png)
 
 Для запуска приложения. 
 - иметь в системе jdk

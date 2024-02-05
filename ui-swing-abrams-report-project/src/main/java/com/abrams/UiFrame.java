@@ -24,15 +24,19 @@ public class UiFrame extends JFrame {
         setResizable(false); // запрещаем возможность растягивать окно
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel panel = new JPanel(new GridLayout(4, 1));
+        JPanel panel = new JPanel(new GridLayout(6, 1));
         panel.setBackground(Color.lightGray);
 
         Container container = getContentPane();
 
         JButton _reportGroup = getGroupingButton();
         JButton _reportEach = getEachButton();
+        JLabel _labelNameClient=new JLabel("Введите имя клиента",SwingConstants.CENTER);
+        JLabel _labelDirectory=new JLabel("Директория для поиска",SwingConstants.CENTER);
 
+        panel.add(_labelNameClient);
         panel.add(_nameClient);
+        panel.add(_labelDirectory);
         panel.add(_currentDir);
         panel.add(_reportGroup);
         panel.add(_reportEach);
@@ -47,13 +51,17 @@ public class UiFrame extends JFrame {
         _button.addActionListener(e -> {
             refreshTextField();
             try {
-                writeCustomersToDB();
-                new GroupCustomerReport(_getNameClientText,_getCurrentDirText).save();
+                findAndWriteCustomersToDB();
+                createXlsGroupReport();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });
         return _button;
+    }
+
+    private void createXlsGroupReport() throws IOException {
+        new GroupCustomerReport(_getNameClientText,_getCurrentDirText).save();
     }
 
     private JButton getEachButton() {
@@ -63,8 +71,8 @@ public class UiFrame extends JFrame {
         _button.addActionListener(e -> {
             refreshTextField();
             try {
-                writeCustomersToDB();
-                new SelectAllCustomerReport(_getNameClientText,_getCurrentDirText).save();
+                findAndWriteCustomersToDB();
+                createXlsDetailReport();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -72,7 +80,11 @@ public class UiFrame extends JFrame {
         return _button;
     }
 
-    private void writeCustomersToDB() throws IOException {
+    private void createXlsDetailReport() throws IOException {
+        new SelectAllCustomerReport(_getNameClientText,_getCurrentDirText).save();
+    }
+
+    private void findAndWriteCustomersToDB() throws IOException {
         new WriterToDB(
                 new FinderFiles(
                         new FinderDirectoriesByName(_getNameClientText, _getCurrentDirText)));
