@@ -1,10 +1,10 @@
 package com.abrams;
 
-import com.abrams.finder.reports.SelectAllCustomerReport;
-import com.abrams.finder.reports.GroupCustomerReport;
-import com.abrams.finder.search.FinderDirectoriesByName;
-import com.abrams.finder.search.FinderFiles;
-import com.abrams.finder.write.WriterToDB;
+import com.abrams.reports.SelectAllCustomerReport;
+import com.abrams.reports.GroupCustomerReport;
+import com.abrams.search.FinderDirectoriesByName;
+import com.abrams.search.FinderFiles;
+import com.abrams.outputto.WriterToDB;
 
 import javax.swing.*;
 import java.awt.*;

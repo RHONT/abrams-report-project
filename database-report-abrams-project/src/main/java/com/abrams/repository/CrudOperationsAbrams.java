@@ -7,9 +7,9 @@ import com.abrams.dto.GroupedCustomerOrder;
 import java.util.List;
 import java.util.Optional;
 
-public interface CrudOperationsAbrams extends OperationsRepository {
+public interface CrudOperationsAbrams {
     void createTable();
-    void insertValue(String digit_of_month,String type_work, String name_file);
+    void insertValue(SingleCustomersOrder singleCustomersOrder);
     Optional<List<SingleCustomersOrder>> selectAll();
     Optional<List<GroupedCustomerOrder>> selectGroupByTypeWork();
 

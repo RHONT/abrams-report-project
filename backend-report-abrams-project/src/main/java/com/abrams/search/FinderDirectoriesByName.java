@@ -1,4 +1,4 @@
-package com.abrams.finder.search;
+package com.abrams.search;
 
 import java.io.IOException;
 import java.nio.file.Files;

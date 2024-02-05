@@ -1,4 +1,4 @@
-package com.abrams.finder.reports;
+package com.abrams.reports;
 
 import com.abrams.repository.CrudOperationsAbrams;
 import com.abrams.service.CrudOperationsOperationImpl;

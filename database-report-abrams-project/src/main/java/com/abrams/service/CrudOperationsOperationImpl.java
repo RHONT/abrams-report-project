@@ -4,7 +4,6 @@ import com.abrams.config.H2JDBCUtils;
 import com.abrams.dto.SingleCustomersOrder;
 import com.abrams.dto.GroupedCustomerOrder;
 import com.abrams.repository.CrudOperationsAbrams;
-import com.abrams.utils.CalcSquareMeters;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -42,16 +41,16 @@ public class CrudOperationsOperationImpl implements CrudOperationsAbrams {
     }
 
     @Override
-    public void insertValue(String digit_of_month, String type_work, String name_file) {
+    public void insertValue(SingleCustomersOrder customer) {
         PreparedStatement insertPreparedStatement;
 
-        try (Connection connection = H2JDBCUtils.getConnection();) {
+        try (Connection connection = H2JDBCUtils.getConnection()) {
 
             insertPreparedStatement = connection.prepareStatement(_insertQuery);
-            insertPreparedStatement.setString(1, digit_of_month);
-            insertPreparedStatement.setString(2, type_work);
-            insertPreparedStatement.setString(3, name_file);
-            insertPreparedStatement.setDouble(4, CalcSquareMeters.getSquareMeters(name_file));
+            insertPreparedStatement.setString(1, customer.get_digitOfMonth());
+            insertPreparedStatement.setString(2, customer.get_typeWork());
+            insertPreparedStatement.setString(3, customer.get_nameFile());
+            insertPreparedStatement.setDouble(4, customer.get_squareMeters());
             insertPreparedStatement.executeUpdate();
             insertPreparedStatement.close();
         } catch (SQLException e) {
@@ -65,7 +64,7 @@ public class CrudOperationsOperationImpl implements CrudOperationsAbrams {
         List<SingleCustomersOrder> singleCustomersOrders = new ArrayList<>();
         PreparedStatement selectPreparedStatement;
 
-        try (Connection connection = H2JDBCUtils.getConnection();) {
+        try (Connection connection = H2JDBCUtils.getConnection()) {
 
             selectPreparedStatement = connection.prepareStatement(_selectQuery);
             resultSet = selectPreparedStatement.executeQuery();
@@ -92,7 +91,7 @@ public class CrudOperationsOperationImpl implements CrudOperationsAbrams {
         List<GroupedCustomerOrder> rowObjects = new ArrayList<>();
         PreparedStatement selectPreparedStatement;
 
-        try (Connection connection = H2JDBCUtils.getConnection();) {
+        try (Connection connection = H2JDBCUtils.getConnection()) {
 
             selectPreparedStatement = connection.prepareStatement(_selectGroupQuery);
             resultSet = selectPreparedStatement.executeQuery();

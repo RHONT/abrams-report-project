@@ -1,5 +1,6 @@
 package com.abrams.finder.rules;
 
+import com.abrams.rules.Rules;
 import org.junit.jupiter.api.*;
 
 import java.nio.file.Path;
@@ -17,7 +18,7 @@ class RulesTest {
     void isReservedFile() {
         String in="Path\\Резервная копия 100х200 1.txt";
         Path path=Path.of(in);
-        Predicate<Path> predicate=Rules::isReservedFile;
+        Predicate<Path> predicate= Rules::isReservedFile;
         assertTrue(Rules.isReservedFile(path));
         assertTrue(predicate.test(path));
     }

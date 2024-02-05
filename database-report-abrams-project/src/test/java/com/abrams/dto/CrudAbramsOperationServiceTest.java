@@ -3,6 +3,11 @@ package com.abrams.dto;
 import com.abrams.repository.CrudOperationsAbrams;
 import com.abrams.service.CrudOperationsOperationImpl;
 import org.junit.jupiter.api.*;
+
+
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CrudAbramsOperationServiceTest {
@@ -17,11 +22,22 @@ class CrudAbramsOperationServiceTest {
 
     @Test
     void selectAll() {
+        SingleCustomersOrder customer=new SingleCustomersOrder(
+                "01",
+                "Poster",
+                "test 340x333 1.pdf",
+                0.33d);
         CrudOperationsAbrams crudOperations =new CrudOperationsOperationImpl();
         crudOperations.createTable();
-        crudOperations.insertValue("1","10","500x500 1.pdf,");
-        crudOperations.insertValue("1","10","1000x2000 1.pdf");
-        crudOperations.insertValue("3","3","33");
-        assertEquals(3, crudOperations.selectAll().get().size());
+        crudOperations.insertValue(customer);
+        crudOperations.insertValue(customer);
+        crudOperations.insertValue(customer);
+        int expected=3;
+        int actual=0;
+        Optional<List<SingleCustomersOrder>> singleCustomersOrders = crudOperations.selectAll();
+        if (singleCustomersOrders.isPresent()) {
+            actual=singleCustomersOrders.get().size();
+        }
+        assertEquals(expected, actual);
     }
 }

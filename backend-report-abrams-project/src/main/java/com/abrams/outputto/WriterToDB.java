@@ -1,7 +1,7 @@
-package com.abrams.finder.write;
+package com.abrams.outputto;
 
-import com.abrams.finder.dto.CustomerInfoOrder;
-import com.abrams.finder.search.FinderFiles;
+import com.abrams.dto.SingleCustomersOrder;
+import com.abrams.search.FinderFiles;
 import com.abrams.repository.CrudOperationsAbrams;
 import com.abrams.service.CrudOperationsOperationImpl;
 
@@ -21,10 +21,10 @@ public class WriterToDB {
     }
 
     private void writeToDB() throws IOException {
-        List<CustomerInfoOrder> resultInfoFilesList = _finderFiles.getResultFilesList();
+        List<SingleCustomersOrder> resultInfoFilesList = _finderFiles.getResultFilesList();
         try {
-            for (var element : resultInfoFilesList) {
-                _dbService.insertValue(element.getDigitOfMonth(), element.getTypeWork(), element.getName());
+            for (var customer : resultInfoFilesList) {
+                _dbService.insertValue(customer);
             }
         } catch (Exception e) {
             throw new NoSuchElementException("Having problems saving the list to the database");

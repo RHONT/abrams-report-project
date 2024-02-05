@@ -1,7 +1,8 @@
-package com.abrams.finder.search;
+package com.abrams.search;
 
-import com.abrams.finder.dto.CustomerInfoOrder;
-import com.abrams.finder.rules.Rules;
+import com.abrams.dto.SingleCustomersOrder;
+import com.abrams.mapper.PathToSingleCustomerOrder;
+import com.abrams.rules.Rules;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,14 +22,15 @@ public class FinderFiles {
         _finderDirectoriesByName = finderDirectoriesByName;
     }
 
-    public List<CustomerInfoOrder> getResultFilesList() throws IOException {
+    public List<SingleCustomersOrder> getResultFilesList() throws IOException {
         List<Path> _listPathForSearch = _finderDirectoriesByName.getResultPathList();
-        List<CustomerInfoOrder> collectedResult = new ArrayList<>();
+        List<SingleCustomersOrder> collectedResult = new ArrayList<>();
         for (Path _path : _listPathForSearch) {
-            List<CustomerInfoOrder> collected = Files.walk(_path)
+            List<SingleCustomersOrder> collected = Files.walk(_path)
                     .filter(Files::isRegularFile)
                     .filter(isArchive.negate().and(isReservedFile.negate()))
-                    .map(CustomerInfoOrder::new)
+                    .map(PathToSingleCustomerOrder::new)
+                    .map(PathToSingleCustomerOrder::getSingleCustomersOrder)
                     .collect(Collectors.toList());
             collectedResult.addAll(collected);
         }

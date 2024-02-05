@@ -1,4 +1,4 @@
-package com.abrams.finder.rules;
+package com.abrams.rules;
 
 import java.nio.file.Path;
 import java.util.regex.Matcher;
