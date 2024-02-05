@@ -15,13 +15,13 @@ public abstract class Report<T> {
     protected final CrudOperationsAbrams _dbService;
     protected final String _fileName;
     protected final String _fullFolderToSave;
-    protected int _currRowsIncrement=0;
+    protected int _currRowsIncrement = 0;
 
 
-    public Report(String DirectoryForSave, String fileName) {
+    public Report(String fileName, String directoryForSave) {
         _dbService = new CrudOperationsOperationImpl();
         _fileName = fileName;
-        _fullFolderToSave = DirectoryForSave + "/" + fileName + ".xlsx";
+        _fullFolderToSave = directoryForSave + "/" + fileName + ".xlsx";
     }
 
     protected abstract Collection<T> getListDto();

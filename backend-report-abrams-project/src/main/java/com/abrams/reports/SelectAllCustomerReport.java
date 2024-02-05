@@ -10,14 +10,14 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class SelectAllCustomerReport extends Report<SingleCustomersOrder> {
-    public SelectAllCustomerReport(String fileName, String DirectoryForSave) {
-        super(DirectoryForSave, fileName);
+    public SelectAllCustomerReport(String fileName,String directoryForSave) {
+        super(fileName + " Детальный", directoryForSave);
     }
 
     @Override
     protected List<SingleCustomersOrder> getListDto() {
         Optional<List<SingleCustomersOrder>> groupedCustomerOrders = _dbService.selectAll();
-        return groupedCustomerOrders.orElseThrow(()->new NoSuchElementException("Files not found"));
+        return groupedCustomerOrders.orElseThrow(() -> new NoSuchElementException("Files not found"));
     }
 
     @Override
