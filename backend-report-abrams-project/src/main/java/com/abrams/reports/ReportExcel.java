@@ -1,7 +1,7 @@
 package com.abrams.reports;
 
 import com.abrams.repository.OrderRepository;
-import com.abrams.service.OrderRepositoryImpl;
+import com.abrams.repository.OrderRepositoryImpl;
 import org.dhatim.fastexcel.Workbook;
 import org.dhatim.fastexcel.Worksheet;
 

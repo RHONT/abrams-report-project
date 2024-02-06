@@ -2,7 +2,7 @@ package com.abrams.dto;
 
 import com.abrams.etntity.Order;
 import com.abrams.repository.OrderRepository;
-import com.abrams.service.OrderRepositoryImpl;
+import com.abrams.repository.OrderRepositoryImpl;
 import org.junit.jupiter.api.*;
 
 

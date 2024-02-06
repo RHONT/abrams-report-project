@@ -1,7 +1,7 @@
 package com.abrams.etntity;
 
 import com.abrams.repository.OrderRepository;
-import com.abrams.service.OrderRepositoryImpl;
+import com.abrams.repository.OrderRepositoryImpl;
 
 /**
  * The DTO returned from the database by the method {@link OrderRepositoryImpl#selectAll()}

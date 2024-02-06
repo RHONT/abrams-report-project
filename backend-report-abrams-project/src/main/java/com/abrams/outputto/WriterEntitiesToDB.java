@@ -2,7 +2,7 @@ package com.abrams.outputto;
 
 import com.abrams.etntity.ParentEntity;
 import com.abrams.repository.OrderRepository;
-import com.abrams.service.OrderRepositoryImpl;
+import com.abrams.repository.OrderRepositoryImpl;
 
 import java.util.Collection;
 import java.util.NoSuchElementException;
