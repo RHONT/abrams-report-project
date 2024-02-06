@@ -1,7 +1,7 @@
 package com.abrams.reports;
 
-import com.abrams.repository.CrudOperationsAbrams;
-import com.abrams.service.CrudOperationsOperationImpl;
+import com.abrams.repository.OrderRepository;
+import com.abrams.service.OrderRepositoryImpl;
 import org.dhatim.fastexcel.Workbook;
 import org.dhatim.fastexcel.Worksheet;
 
@@ -11,15 +11,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
 
-public abstract class Report<T> {
-    protected final CrudOperationsAbrams _dbService;
+public abstract class ReportExcel<T> {
+    protected final OrderRepository _dbService;
     protected final String _fileName;
     protected final String _fullFolderToSave;
     protected int _currRowsIncrement = 0;
 
 
-    public Report(String fileName, String directoryForSave) {
-        _dbService = new CrudOperationsOperationImpl();
+    public ReportExcel(String fileName, String directoryForSave) {
+        _dbService = new OrderRepositoryImpl();
         _fileName = fileName;
         _fullFolderToSave = directoryForSave + "/" + fileName + ".xlsx";
     }
@@ -30,14 +30,13 @@ public abstract class Report<T> {
 
     protected abstract void createHeadSheet(Worksheet sheet);
 
-    public boolean save() throws IOException {
+    public void createXlsFile() throws IOException {
         try (OutputStream os = Files.newOutputStream(Paths.get(_fullFolderToSave));
              Workbook workbook = new Workbook(os, "MyApplication", "1.0")) {
             Worksheet sheet = workbook.newWorksheet("Sheet 1");
             createHeadSheet(sheet);
             fillTable(getListDto(), sheet);
         }
-        return true;
     }
 
 }

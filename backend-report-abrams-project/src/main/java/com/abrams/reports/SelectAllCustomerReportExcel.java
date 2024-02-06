@@ -1,6 +1,6 @@
 package com.abrams.reports;
 
-import com.abrams.dto.SingleCustomersOrder;
+import com.abrams.etntity.Order;
 import org.dhatim.fastexcel.Color;
 import org.dhatim.fastexcel.Worksheet;
 
@@ -9,19 +9,19 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class SelectAllCustomerReport extends Report<SingleCustomersOrder> {
-    public SelectAllCustomerReport(String fileName,String directoryForSave) {
+public class SelectAllCustomerReportExcel extends ReportExcel<Order> {
+    public SelectAllCustomerReportExcel(String fileName, String directoryForSave) {
         super(fileName + " Детальный", directoryForSave);
     }
 
     @Override
-    protected List<SingleCustomersOrder> getListDto() {
-        Optional<List<SingleCustomersOrder>> groupedCustomerOrders = _dbService.selectAll();
+    protected List<Order> getListDto() {
+        Optional<List<Order>> groupedCustomerOrders = _dbService.selectAll();
         return groupedCustomerOrders.orElseThrow(() -> new NoSuchElementException("Files not found"));
     }
 
     @Override
-    protected void fillTable(Collection<SingleCustomersOrder> listDto, Worksheet sheet) {
+    protected void fillTable(Collection<Order> listDto, Worksheet sheet) {
         _currRowsIncrement = 3;
         for (var element : listDto) {
             sheet.value(_currRowsIncrement, 0, element.get_digitOfMonth());

@@ -1,6 +1,6 @@
-package com.abrams.mapper;
+package com.abrams.parsers;
 
-import com.abrams.dto.SingleCustomersOrder;
+import com.abrams.etntity.Order;
 
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -14,18 +14,18 @@ import java.util.regex.Pattern;
  * _fileName: test 300x400 5.txt
  * _squareMeters: 0.3 * 0.4 * 5
  */
-public class PathToSingleCustomerOrder {
+public class PathToOrder {
     private static final String _digitExp = "[0-9]{1,}.{1}[0-9]{1,}\\s[0-9]{1,}";
     private static final String _splitExp = "\\D";
 
-    private final SingleCustomersOrder singleCustomersOrder;
+    private final Order order;
 
-    public PathToSingleCustomerOrder(Path path) {
+    public PathToOrder(Path path) {
         String _digitOfMonth = getDirNameUpTwoLevel(path);
         String _typeWork = getDirName(path);
         String _fileName = path.getFileName().toString();
         double _squareMeters = getSquareMeters(_fileName);
-        singleCustomersOrder=new SingleCustomersOrder(_digitOfMonth, _typeWork, _fileName, _squareMeters);
+        order =new Order(_digitOfMonth, _typeWork, _fileName, _squareMeters);
     }
 
     private String getDirName(Path path) {
@@ -57,7 +57,7 @@ public class PathToSingleCustomerOrder {
         return square*amount;
     }
 
-    public SingleCustomersOrder getSingleCustomersOrder() {
-        return singleCustomersOrder;
+    public Order getSingleCustomersOrder() {
+        return order;
     }
 }

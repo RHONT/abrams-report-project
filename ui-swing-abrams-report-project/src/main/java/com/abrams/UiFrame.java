@@ -1,10 +1,10 @@
 package com.abrams;
 
-import com.abrams.reports.SelectAllCustomerReport;
-import com.abrams.reports.GroupCustomerReport;
+import com.abrams.reports.SelectAllCustomerReportExcel;
+import com.abrams.reports.GroupCustomerReportExcel;
 import com.abrams.search.FinderDirectoriesByName;
-import com.abrams.search.FinderFiles;
-import com.abrams.outputto.WriterToDB;
+import com.abrams.search.FinderOrders;
+import com.abrams.outputto.WriterEntitiesToDB;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,7 +61,7 @@ public class UiFrame extends JFrame {
     }
 
     private void createXlsGroupReport() throws IOException {
-        new GroupCustomerReport(_getNameClientText,_getCurrentDirText).save();
+        new GroupCustomerReportExcel(_getNameClientText,_getCurrentDirText).createXlsFile();
     }
 
     private JButton getEachButton() {
@@ -81,13 +81,14 @@ public class UiFrame extends JFrame {
     }
 
     private void createXlsDetailReport() throws IOException {
-        new SelectAllCustomerReport(_getNameClientText,_getCurrentDirText).save();
+        new SelectAllCustomerReportExcel(_getNameClientText,_getCurrentDirText).createXlsFile();
     }
 
     private void findAndWriteCustomersToDB() throws IOException {
-        new WriterToDB(
-                new FinderFiles(
-                        new FinderDirectoriesByName(_getNameClientText, _getCurrentDirText)));
+        new WriterEntitiesToDB(
+                new FinderOrders(
+                        new FinderDirectoriesByName(_getNameClientText, _getCurrentDirText)).
+                        getResultFilesList());
     }
 
     private void refreshTextField() {

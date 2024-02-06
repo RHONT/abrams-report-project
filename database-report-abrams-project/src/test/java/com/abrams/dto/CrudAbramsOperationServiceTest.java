@@ -1,7 +1,8 @@
 package com.abrams.dto;
 
-import com.abrams.repository.CrudOperationsAbrams;
-import com.abrams.service.CrudOperationsOperationImpl;
+import com.abrams.etntity.Order;
+import com.abrams.repository.OrderRepository;
+import com.abrams.service.OrderRepositoryImpl;
 import org.junit.jupiter.api.*;
 
 
@@ -22,19 +23,19 @@ class CrudAbramsOperationServiceTest {
 
     @Test
     void selectAll() {
-        SingleCustomersOrder customer=new SingleCustomersOrder(
+        Order customer=new Order(
                 "01",
                 "Poster",
                 "test 340x333 1.pdf",
                 0.33d);
-        CrudOperationsAbrams crudOperations =new CrudOperationsOperationImpl();
+        OrderRepository crudOperations =new OrderRepositoryImpl();
         crudOperations.createTable();
-        crudOperations.insertValue(customer);
-        crudOperations.insertValue(customer);
-        crudOperations.insertValue(customer);
+        crudOperations.save(customer);
+        crudOperations.save(customer);
+        crudOperations.save(customer);
         int expected=3;
         int actual=0;
-        Optional<List<SingleCustomersOrder>> singleCustomersOrders = crudOperations.selectAll();
+        Optional<List<Order>> singleCustomersOrders = crudOperations.selectAll();
         if (singleCustomersOrders.isPresent()) {
             actual=singleCustomersOrders.get().size();
         }

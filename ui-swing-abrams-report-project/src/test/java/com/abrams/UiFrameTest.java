@@ -1,16 +1,5 @@
 package com.abrams;
 
-import com.abrams.reports.SelectAllCustomerReport;
-import com.abrams.reports.GroupCustomerReport;
-import com.abrams.search.FinderDirectoriesByName;
-import com.abrams.search.FinderFiles;
-import com.abrams.outputto.WriterToDB;
-import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class UiFrameTest {
 
 //    @Test
