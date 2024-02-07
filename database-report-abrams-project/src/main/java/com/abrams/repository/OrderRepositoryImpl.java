@@ -1,6 +1,7 @@
 package com.abrams.repository;
 
 import com.abrams.config.H2JDBCUtils;
+import com.abrams.dto.OrderDto;
 import com.abrams.etntity.Order;
 import com.abrams.dto.GroupedOrderByTypeWork;
 
@@ -15,7 +16,7 @@ public class OrderRepositoryImpl implements OrderRepository {
             "CREATE TABLE IF NOT EXISTS report (" +
             "digit_of_month  varchar," +
             "type_work varchar," +
-            "name_file varchar PRIMARY KEY not null ," +
+            "name_file varchar," +
             "square_meters double)";
     private static final String _selectQuery = "select * from report";
 
@@ -24,7 +25,7 @@ public class OrderRepositoryImpl implements OrderRepository {
             "digit_of_month,type_work, name_file,square_meters) values" + "(?,?,?,?)";
 
     private static final String _selectGroupQuery = "" +
-            "select digit_of_month,type_work, sum(square_meters) " +
+            "select digit_of_month,type_work, sum(square_meters) as square_meters " +
             "from report " +
             "group by digit_of_month,type_work";
 
@@ -56,7 +57,29 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public void saveAll(List<Order> listOrders) {
-        listOrders.forEach(Order::save);
+        PreparedStatement insertPreparedStatement;
+        try (Connection connection = H2JDBCUtils.getConnection()) {
+            connection.setAutoCommit(false);
+            insertPreparedStatement = connection.prepareStatement(_insertQuery);
+            for (int i = 0; i < listOrders.size(); i++) {
+                OrderDto dto = listOrders.get(i).giveDto();
+                insertPreparedStatement.setString(1, dto.get_digitOfMonth());
+                insertPreparedStatement.setString(2, dto.get_typeWork());
+                insertPreparedStatement.setString(3, dto.get_nameFile());
+                insertPreparedStatement.setDouble(4, dto.get_squareMeters());
+                insertPreparedStatement.addBatch();
+            }
+            try {
+                insertPreparedStatement.executeBatch();
+                connection.commit();
+            } catch (BatchUpdateException e) {
+                connection.rollback();
+                throw new RuntimeException("error with group save orders" + e.getMessage());
+            }
+            insertPreparedStatement.close();
+        } catch (SQLException e) {
+            H2JDBCUtils.printSQLException(e);
+        }
     }
 
     @Override
