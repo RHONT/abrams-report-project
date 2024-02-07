@@ -1,13 +1,11 @@
 package com.abrams.etntity;
 
+import com.abrams.dto.OrderDto;
 import  com.abrams.repository.OrderRepository;
 import com.abrams.repository.OrderRepositoryImpl;
 
-/**
- * The DTO returned from the database by the method {@link OrderRepositoryImpl#selectAll()}
- */
 public class Order extends ParentEntity {
-    OrderRepository operation = new OrderRepositoryImpl();
+    OrderRepository orderRepository = new OrderRepositoryImpl();
     private final String _digitOfMonth;
     private final String _typeWork;
     private final String _nameFile;
@@ -20,25 +18,13 @@ public class Order extends ParentEntity {
         this._squareMeters = _squareMeters;
     }
 
-    public String get_nameFile() {
-        return _nameFile;
-    }
-
-    public String get_digitOfMonth() {
-        return _digitOfMonth;
-    }
-
-    public String get_typeWork() {
-        return _typeWork;
-    }
-
-    public double get_squareMeters() {
-        return _squareMeters;
-    }
-
     @Override
-    public Order save() {
-        return operation.save(this);
+    public boolean save() {
+        return orderRepository.save(_digitOfMonth,_typeWork,_nameFile,_squareMeters);
+    }
+
+    public OrderDto giveDto(){
+        return new OrderDto(_digitOfMonth,_typeWork,_nameFile,_squareMeters);
     }
 
     @Override

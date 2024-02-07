@@ -15,15 +15,15 @@ public class GroupCustomerReportExcel extends ReportExcel<GroupedOrderByTypeWork
     }
 
     @Override
-    protected List<GroupedOrderByTypeWork> getListDto() {
+    protected List<GroupedOrderByTypeWork> giveOrders() {
         Optional<List<GroupedOrderByTypeWork>> groupedCustomerOrders = _dbService.selectGroupByTypeWork();
         return groupedCustomerOrders.orElseThrow(() -> new NoSuchElementException("Files not found"));
     }
 
     @Override
-    protected void fillTable(Collection<GroupedOrderByTypeWork> listDto, Worksheet sheet) {
+    protected void fillTable(Collection<GroupedOrderByTypeWork> entities, Worksheet sheet) {
         _currRowsIncrement = 3;
-        for (var element : listDto) {
+        for (var element : entities) {
             sheet.value(_currRowsIncrement, 0, element.getDigitOfMonth());
             sheet.value(_currRowsIncrement, 1, element.getTypeWork());
             sheet.value(_currRowsIncrement, 2, element.getSquareMeters());

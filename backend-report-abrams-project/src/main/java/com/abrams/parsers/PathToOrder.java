@@ -21,43 +21,43 @@ public class PathToOrder {
     private final Order order;
 
     public PathToOrder(Path path) {
-        String _digitOfMonth = getDirNameUpTwoLevel(path);
-        String _typeWork = getDirName(path);
+        String _digitOfMonth = calcNumberOfMonth(path);
+        String _typeWork = calcTypeWork(path);
         String _fileName = path.getFileName().toString();
-        double _squareMeters = getSquareMeters(_fileName);
+        double _squareMeters = calcSquareMeters(_fileName);
         order =new Order(_digitOfMonth, _typeWork, _fileName, _squareMeters);
     }
 
-    private String getDirName(Path path) {
+    private String calcTypeWork(Path path) {
         int temp = path.getNameCount();
         return path.getName(temp - 2).toString();
     }
 
-    private String getDirNameUpTwoLevel(Path path) {
+    private String calcNumberOfMonth(Path path) {
         int temp = path.getNameCount();
         return path.getName(temp - 4).toString();
     }
 
-    public static double getSquareMeters(String fileName){
+    public static double calcSquareMeters(String fileName){
         Pattern pattern = Pattern.compile(_digitExp);
         Matcher matcher = pattern.matcher(fileName);
         if (matcher.find()) {
             String group = matcher.group();
             Pattern splitPattern=Pattern.compile(_splitExp);
             String[] split = splitPattern.split(group);
-            return calcSquareMeters(split);
+            return calcArray(split);
         }
         return 0;
     }
 
-    private static double calcSquareMeters(String[] inputStrings){
+    private static double calcArray(String[] inputStrings){
         double[] doubles= Arrays.stream(inputStrings).mapToDouble(Double::valueOf).toArray();
         double square = (doubles[0]/1000d)*(doubles[1]/1000d);
         double amount=doubles[2];
         return square*amount;
     }
 
-    public Order getSingleCustomersOrder() {
+    public Order getOrder() {
         return order;
     }
 }

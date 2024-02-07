@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface OrderRepository {
     void createTable();
-    Order save(Order order);
+    boolean save(String digitOfMonth, String typeWork, String nameFile, double squareMeters);
     void saveAll(List<Order> listOrders);
     Optional<List<Order>> selectAll();
     Optional<List<GroupedOrderByTypeWork>> selectGroupByTypeWork();

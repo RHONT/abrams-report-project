@@ -30,9 +30,9 @@ class CrudAbramsOperationServiceTest {
     void selectAll() {
         OrderRepository crudOperations =new OrderRepositoryImpl();
         crudOperations.createTable();
-        crudOperations.save(o1);
-        crudOperations.save(o2);
-        crudOperations.save(o3);
+        o1.save();
+        o2.save();
+        o3.save();
         int expected=3;
         int actual=0;
         Optional<List<Order>> singleCustomersOrders = crudOperations.selectAll();

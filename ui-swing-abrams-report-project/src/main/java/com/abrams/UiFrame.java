@@ -2,7 +2,6 @@ package com.abrams;
 
 import com.abrams.reports.SelectAllCustomerReportExcel;
 import com.abrams.reports.GroupCustomerReportExcel;
-import com.abrams.search.FinderDirectoriesByName;
 import com.abrams.search.FinderOrders;
 import com.abrams.outputto.WriterEntitiesToDB;
 
@@ -85,10 +84,8 @@ public class UiFrame extends JFrame {
     }
 
     private void findAndWriteCustomersToDB() throws IOException {
-        new WriterEntitiesToDB(
-                new FinderOrders(
-                        new FinderDirectoriesByName(_getNameClientText, _getCurrentDirText)).
-                        getResultFilesList());
+        new WriterEntitiesToDB(new FinderOrders(_getNameClientText, _getCurrentDirText)
+                .giveOrders());
     }
 
     private void refreshTextField() {

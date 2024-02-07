@@ -24,9 +24,9 @@ public abstract class ReportExcel<T> {
         _fullFolderToSave = directoryForSave + "/" + fileName + ".xlsx";
     }
 
-    protected abstract Collection<T> getListDto();
+    protected abstract Collection<T> giveOrders();
 
-    protected abstract void fillTable(Collection<T> listDto, Worksheet sheet);
+    protected abstract void fillTable(Collection<T> entities, Worksheet sheet);
 
     protected abstract void createHeadSheet(Worksheet sheet);
 
@@ -35,7 +35,7 @@ public abstract class ReportExcel<T> {
              Workbook workbook = new Workbook(os, "MyApplication", "1.0")) {
             Worksheet sheet = workbook.newWorksheet("Sheet 1");
             createHeadSheet(sheet);
-            fillTable(getListDto(), sheet);
+            fillTable(giveOrders(), sheet);
         }
     }
 

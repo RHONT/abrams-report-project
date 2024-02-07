@@ -40,73 +40,41 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public Order save(Order customer) {
-        PreparedStatement insertPreparedStatement;
-
-        try (Connection connection = H2JDBCUtils.getConnection()) {
-
-            insertPreparedStatement = connection.prepareStatement(_insertQuery);
-            insertPreparedStatement.setString(1, customer.get_digitOfMonth());
-            insertPreparedStatement.setString(2, customer.get_typeWork());
-            insertPreparedStatement.setString(3, customer.get_nameFile());
-            insertPreparedStatement.setDouble(4, customer.get_squareMeters());
-            insertPreparedStatement.executeUpdate();
-            insertPreparedStatement.close();
+    public boolean save(String digitOfMonth, String typeWork, String nameFile, double squareMeters) {
+        try (Connection connection = H2JDBCUtils.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(_insertQuery)) {
+            pstmt.setString(1, digitOfMonth);
+            pstmt.setString(2, typeWork);
+            pstmt.setString(3, nameFile);
+            pstmt.setDouble(4, squareMeters);
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             H2JDBCUtils.printSQLException(e);
         }
-        return customer;
+        return true;
     }
 
     @Override
     public void saveAll(List<Order> listOrders) {
-        PreparedStatement insertPreparedStatement;
-        try (Connection connection = H2JDBCUtils.getConnection()) {
-            connection.setAutoCommit(false);
-            insertPreparedStatement = connection.prepareStatement(_insertQuery);
-            for (int i = 0; i < listOrders.size(); i++) {
-                    Order order = listOrders.get(i);
-                    insertPreparedStatement.setString(1, order.get_digitOfMonth());
-                    insertPreparedStatement.setString(2, order.get_typeWork());
-                    insertPreparedStatement.setString(3, order.get_nameFile());
-                    insertPreparedStatement.setDouble(4, order.get_squareMeters());
-                    insertPreparedStatement.addBatch();
-            }
-            try {
-                insertPreparedStatement.executeBatch();
-                connection.commit();
-            } catch (BatchUpdateException e) {
-                connection.rollback();
-                throw new RuntimeException("error with group save orders" + e.getMessage());
-            }
-            insertPreparedStatement.close();
-        } catch (SQLException e) {
-            H2JDBCUtils.printSQLException(e);
-        }
-
+        listOrders.forEach(Order::save);
     }
 
     @Override
     public Optional<List<Order>> selectAll() {
         ResultSet resultSet;
         List<Order> orders = new ArrayList<>();
-        PreparedStatement selectPreparedStatement;
-
-        try (Connection connection = H2JDBCUtils.getConnection()) {
-
-            selectPreparedStatement = connection.prepareStatement(_selectQuery);
-            resultSet = selectPreparedStatement.executeQuery();
-
-                while (resultSet.next()) {
-                    String _digitOfMonth = resultSet.getString("digit_of_month");
-                    String _typeWork = resultSet.getString("type_work");
-                    String _fileName = resultSet.getString("name_file");
-                    double _squareMeters = resultSet.getDouble("square_meters");
-                    orders.add(
-                            new Order(_digitOfMonth, _typeWork, _fileName, _squareMeters));
-                }
-                connection.createStatement().execute(_dropTable);
-            connection.commit();
+        try (Connection connection = H2JDBCUtils.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(_selectQuery)) {
+            resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                String _digitOfMonth = resultSet.getString("digit_of_month");
+                String _typeWork = resultSet.getString("type_work");
+                String _fileName = resultSet.getString("name_file");
+                double _squareMeters = resultSet.getDouble("square_meters");
+                orders.add(
+                        new Order(_digitOfMonth, _typeWork, _fileName, _squareMeters));
+            }
+            connection.createStatement().execute(_dropTable);
         } catch (SQLException e) {
             H2JDBCUtils.printSQLException(e);
         }
@@ -117,21 +85,17 @@ public class OrderRepositoryImpl implements OrderRepository {
     public Optional<List<GroupedOrderByTypeWork>> selectGroupByTypeWork() {
         ResultSet resultSet;
         List<GroupedOrderByTypeWork> rowObjects = new ArrayList<>();
-        PreparedStatement selectPreparedStatement;
-
-        try (Connection connection = H2JDBCUtils.getConnection()) {
-
-            selectPreparedStatement = connection.prepareStatement(_selectGroupQuery);
-            resultSet = selectPreparedStatement.executeQuery();
-
+        try (Connection connection = H2JDBCUtils.getConnection();
+             Statement statement = connection.createStatement();
+             PreparedStatement pstmt = connection.prepareStatement(_selectGroupQuery)) {
+            resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
                 String _digitOfMonth = resultSet.getString("digit_of_month");
                 String _typeWork = resultSet.getString("type_work");
                 double _squareMeters = resultSet.getDouble("square_meters");
                 rowObjects.add(new GroupedOrderByTypeWork(_digitOfMonth, _typeWork, _squareMeters));
             }
-            connection.createStatement().execute(_dropTable);
-            connection.commit();
+            statement.execute(_dropTable);
         } catch (SQLException e) {
             H2JDBCUtils.printSQLException(e);
         }
