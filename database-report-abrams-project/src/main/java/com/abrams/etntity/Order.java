@@ -1,6 +1,6 @@
 package com.abrams.etntity;
 
-import com.abrams.repository.OrderRepository;
+import  com.abrams.repository.OrderRepository;
 import com.abrams.repository.OrderRepositoryImpl;
 
 /**

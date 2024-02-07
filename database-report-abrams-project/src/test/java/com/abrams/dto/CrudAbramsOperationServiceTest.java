@@ -6,13 +6,22 @@ import com.abrams.repository.OrderRepositoryImpl;
 import org.junit.jupiter.api.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CrudAbramsOperationServiceTest {
+    private static List<Order> orders=new ArrayList<>();
+    private static Order o1=new Order("11","plot cut","test 100x100 1.pfd",0.01d);
+    private static Order o2=new Order("11","plot cut","test1 100x100 1.pfd",0.01d);
+    private static Order o3=new Order("11","plot cut","test2 100x100 1.pfd",0.01d);
 
+    @BeforeAll
+    static void init(){
+        orders.addAll(List.of(o1,o2,o3));
+    }
     @Test
     void createTable() {
     }
@@ -23,16 +32,11 @@ class CrudAbramsOperationServiceTest {
 
     @Test
     void selectAll() {
-        Order customer=new Order(
-                "01",
-                "Poster",
-                "test 340x333 1.pdf",
-                0.33d);
         OrderRepository crudOperations =new OrderRepositoryImpl();
         crudOperations.createTable();
-        crudOperations.save(customer);
-        crudOperations.save(customer);
-        crudOperations.save(customer);
+        crudOperations.save(o1);
+        crudOperations.save(o2);
+        crudOperations.save(o3);
         int expected=3;
         int actual=0;
         Optional<List<Order>> singleCustomersOrders = crudOperations.selectAll();

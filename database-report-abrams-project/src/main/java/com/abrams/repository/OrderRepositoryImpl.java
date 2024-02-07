@@ -12,10 +12,10 @@ import java.util.Optional;
 public class OrderRepositoryImpl implements OrderRepository {
     private static final String _dropTable = "drop table report";
     private static final String _createTableSQL = "" +
-            "CREATE TABLE report (" +
+            "CREATE TABLE IF NOT EXISTS report (" +
             "digit_of_month  varchar," +
             "type_work varchar," +
-            "name_file varchar," +
+            "name_file varchar PRIMARY KEY not null ," +
             "square_meters double)";
     private static final String _selectQuery = "select * from report";
 

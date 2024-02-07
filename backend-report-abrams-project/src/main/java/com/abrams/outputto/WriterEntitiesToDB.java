@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.NoSuchElementException;
 
 public class WriterEntitiesToDB {
+    private final String excMsg="list entities is empty";
     public WriterEntitiesToDB(Collection<? extends ParentEntity> list) {
         OrderRepository _dbService = new OrderRepositoryImpl();
         _dbService.createTable();
@@ -16,7 +17,7 @@ public class WriterEntitiesToDB {
 
     private void writeToDB(Collection<? extends ParentEntity> list) {
         if (list.isEmpty()) {
-            throw new NoSuchElementException("list entities is empty");
+            throw new NoSuchElementException(excMsg);
         } else list.forEach(ParentEntity::save);
     }
 }
