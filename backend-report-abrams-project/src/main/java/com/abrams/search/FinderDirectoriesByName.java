@@ -6,19 +6,19 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FinderDirectoriesByName extends Finder {
-    private final String _nameClientDir;
+public class FinderDirectoriesByName extends FinderDirectory {
+    private final String _name;
 
-    public FinderDirectoriesByName(String nameClientDir, String rootFolder){
-        _nameClientDir = nameClientDir;
+    public FinderDirectoriesByName(String nameDir, String rootFolder){
+        _name = nameDir;
         _rootPath = rootFolder;
     }
 
     @Override
-    List<Path> getResultPathList() throws IOException {
+    List<Path> givePaths() throws IOException {
             return Files.walk(Path.of(_rootPath))
                     .filter(Files::isDirectory)
-                    .filter(path -> path.getFileName().toString().equals(_nameClientDir))
+                    .filter(path -> path.getFileName().toString().equals(_name))
                     .collect(Collectors.toList());
     }
 }

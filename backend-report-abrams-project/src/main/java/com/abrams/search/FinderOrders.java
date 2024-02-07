@@ -23,7 +23,7 @@ public class FinderOrders {
     }
 
     public List<Order> getResultFilesList() throws IOException {
-        List<Path> _listPathForSearch = _finderDirectoriesByName.getResultPathList();
+        List<Path> _listPathForSearch = _finderDirectoriesByName.givePaths();
         List<Order> collectedOrders = new ArrayList<>();
         for (Path _path : _listPathForSearch) {
             List<Order> collected = Files.walk(_path)
