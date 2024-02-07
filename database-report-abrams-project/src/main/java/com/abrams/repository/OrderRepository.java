@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface OrderRepository {
     void createTable();
     Order save(Order order);
+    void saveAll(List<Order> listOrders);
     Optional<List<Order>> selectAll();
     Optional<List<GroupedOrderByTypeWork>> selectGroupByTypeWork();
 

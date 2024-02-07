@@ -18,10 +18,6 @@ class CrudAbramsOperationServiceTest {
     private static Order o2=new Order("11","plot cut","test1 100x100 1.pfd",0.01d);
     private static Order o3=new Order("11","plot cut","test2 100x100 1.pfd",0.01d);
 
-    @BeforeAll
-    static void init(){
-        orders.addAll(List.of(o1,o2,o3));
-    }
     @Test
     void createTable() {
     }
@@ -45,4 +41,18 @@ class CrudAbramsOperationServiceTest {
         }
         assertEquals(expected, actual);
     }
+
+    @Test
+    void batchSave(){
+        orders.addAll(List.of(o1,o2,o3));
+        OrderRepository crudOperations =new OrderRepositoryImpl();
+        crudOperations.createTable();
+        crudOperations.saveAll(orders);
+        Optional<List<Order>> orders1 = crudOperations.selectAll();
+        int expected=3;
+        assertEquals(expected, orders1.get().size());
+
+    }
+
+
 }
