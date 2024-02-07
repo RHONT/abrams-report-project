@@ -98,10 +98,10 @@ public class OrderRepositoryImpl implements OrderRepository {
             resultSet = selectPreparedStatement.executeQuery();
 
                 while (resultSet.next()) {
-                    String _digitOfMonth = resultSet.getString(1);
-                    String _typeWork = resultSet.getString(2);
-                    String _fileName = resultSet.getString(3);
-                    double _squareMeters = resultSet.getDouble(4);
+                    String _digitOfMonth = resultSet.getString("digit_of_month");
+                    String _typeWork = resultSet.getString("type_work");
+                    String _fileName = resultSet.getString("name_file");
+                    double _squareMeters = resultSet.getDouble("square_meters");
                     orders.add(
                             new Order(_digitOfMonth, _typeWork, _fileName, _squareMeters));
                 }
@@ -127,7 +127,7 @@ public class OrderRepositoryImpl implements OrderRepository {
             while (resultSet.next()) {
                 String _digitOfMonth = resultSet.getString("digit_of_month");
                 String _typeWork = resultSet.getString("type_work");
-                double _squareMeters = resultSet.getDouble(3);
+                double _squareMeters = resultSet.getDouble("square_meters");
                 rowObjects.add(new GroupedOrderByTypeWork(_digitOfMonth, _typeWork, _squareMeters));
             }
             connection.createStatement().execute(_dropTable);

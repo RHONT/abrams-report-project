@@ -51,7 +51,6 @@ class CrudAbramsOperationServiceTest {
         Optional<List<Order>> orders1 = crudOperations.selectAll();
         int expected=3;
         assertEquals(expected, orders1.get().size());
-
     }
 
 
