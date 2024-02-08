@@ -56,6 +56,22 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
+    public boolean save(Order order) {
+        try (Connection connection = H2JDBCUtils.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(_insertQuery)) {
+            OrderDto dto=order.giveDto();
+            pstmt.setString(1, dto.get_digitOfMonth());
+            pstmt.setString(2, dto.get_typeWork());
+            pstmt.setString(3, dto.get_nameFile());
+            pstmt.setDouble(4, dto.get_squareMeters());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            H2JDBCUtils.printSQLException(e);
+        }
+        return true;
+    }
+
+    @Override
     public void saveAll(List<Order> listOrders) {
         PreparedStatement insertPreparedStatement;
         try (Connection connection = H2JDBCUtils.getConnection()) {
