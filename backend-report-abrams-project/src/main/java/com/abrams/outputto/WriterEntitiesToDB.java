@@ -12,10 +12,10 @@ public class WriterEntitiesToDB {
     public WriterEntitiesToDB(Collection<? extends ParentEntity> list) {
         OrderRepository _dbService = new OrderRepositoryImpl();
         _dbService.createTable();
-        writeToDB(list);
+        writeToMemoryDB(list);
     }
 
-    private void writeToDB(Collection<? extends ParentEntity> list) {
+    private void writeToMemoryDB(Collection<? extends ParentEntity> list) {
         if (list.isEmpty()) {
             throw new NoSuchElementException(excMsg);
         } else list.forEach(ParentEntity::save);

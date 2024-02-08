@@ -1,7 +1,7 @@
 package com.abrams;
 
-import com.abrams.reports.SelectAllCustomerReportExcel;
-import com.abrams.reports.GroupCustomerReportExcel;
+import com.abrams.reports.SelectAllOrderReportExcel;
+import com.abrams.reports.GroupOrderReportExcel;
 import com.abrams.search.FinderOrders;
 import com.abrams.outputto.WriterEntitiesToDB;
 
@@ -50,7 +50,7 @@ public class UiFrame extends JFrame {
         _button.addActionListener(e -> {
             refreshTextField();
             try {
-                findAndWriteCustomersToDB();
+                writeOrderToDB();
                 createXlsGroupReport();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -60,7 +60,7 @@ public class UiFrame extends JFrame {
     }
 
     private void createXlsGroupReport() throws IOException {
-        new GroupCustomerReportExcel(_getNameClientText,_getCurrentDirText).createXlsFile();
+        new GroupOrderReportExcel(_getNameClientText,_getCurrentDirText).createXlsFile();
     }
 
     private JButton getEachButton() {
@@ -70,7 +70,7 @@ public class UiFrame extends JFrame {
         _button.addActionListener(e -> {
             refreshTextField();
             try {
-                findAndWriteCustomersToDB();
+                writeOrderToDB();
                 createXlsDetailReport();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -80,10 +80,10 @@ public class UiFrame extends JFrame {
     }
 
     private void createXlsDetailReport() throws IOException {
-        new SelectAllCustomerReportExcel(_getNameClientText,_getCurrentDirText).createXlsFile();
+        new SelectAllOrderReportExcel(_getNameClientText,_getCurrentDirText).createXlsFile();
     }
 
-    private void findAndWriteCustomersToDB() throws IOException {
+    private void writeOrderToDB() throws IOException {
         new WriterEntitiesToDB(new FinderOrders(_getNameClientText, _getCurrentDirText)
                 .giveOrders());
     }

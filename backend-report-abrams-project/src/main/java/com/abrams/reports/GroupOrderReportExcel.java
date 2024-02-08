@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class GroupCustomerReportExcel extends ReportExcel<GroupedOrderByTypeWork> {
-    public GroupCustomerReportExcel(String fileName, String directoryForSave) {
+public class GroupOrderReportExcel extends ReportExcel<GroupedOrderByTypeWork> {
+    public GroupOrderReportExcel(String fileName, String directoryForSave) {
         super(fileName + " Групповой", directoryForSave);
     }
 

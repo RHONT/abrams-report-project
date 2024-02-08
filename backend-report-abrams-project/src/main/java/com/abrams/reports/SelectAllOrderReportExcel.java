@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class SelectAllCustomerReportExcel extends ReportExcel<Order> {
-    public SelectAllCustomerReportExcel(String fileName, String directoryForSave) {
+public class SelectAllOrderReportExcel extends ReportExcel<Order> {
+    public SelectAllOrderReportExcel(String fileName, String directoryForSave) {
         super(fileName + " Детальный", directoryForSave);
     }
 
