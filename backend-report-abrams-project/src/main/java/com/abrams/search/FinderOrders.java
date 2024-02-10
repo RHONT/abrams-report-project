@@ -48,16 +48,18 @@ public class FinderOrders {
     }
 
     private List<Path> givePaths() throws IOException {
-        Path _path;
-        _path = Path.of(_rootFolder);
-        if (Files.notExists(_path)) {
-            logger.warn("Ошибочный ввод папки: " + _path.getFileName());
-            throw new NotDirectoryException("directory not exist");
-        }
-
+        Path _path = Path.of(_rootFolder);
+        checkPath(_path);
         return Files.walk(_path)
                 .filter(Files::isDirectory)
                 .filter(path -> path.getFileName().toString().equals(_nameDir))
                 .collect(Collectors.toList());
+    }
+
+    private void checkPath(Path _path) throws NotDirectoryException {
+        if (Files.notExists(_path)) {
+            logger.warn("Ошибочный ввод папки: " + _path.getFileName());
+            throw new NotDirectoryException("directory not exist");
+        }
     }
 }
