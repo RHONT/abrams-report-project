@@ -8,6 +8,9 @@ import com.abrams.outputto.WriterEntitiesToDB;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.NotDirectoryException;
+import java.util.NoSuchElementException;
 
 public class UiFrame extends JFrame {
     private final JTextField _nameClient = new JTextField();
@@ -30,8 +33,8 @@ public class UiFrame extends JFrame {
 
         JButton _reportGroup = getGroupingButton();
         JButton _reportEach = getEachButton();
-        JLabel _labelNameClient=new JLabel("Введите имя клиента",SwingConstants.CENTER);
-        JLabel _labelDirectory=new JLabel("Директория для поиска",SwingConstants.CENTER);
+        JLabel _labelNameClient = new JLabel("Введите имя клиента", SwingConstants.CENTER);
+        JLabel _labelDirectory = new JLabel("Директория для поиска", SwingConstants.CENTER);
 
         panel.add(_labelNameClient);
         panel.add(_nameClient);
@@ -52,15 +55,21 @@ public class UiFrame extends JFrame {
             try {
                 writeOrderToDB();
                 createXlsGroupReport();
+            } catch (NotDirectoryException ex) {
+                errorDirectoryDialog();
+
+            } catch (NoSuchElementException ex) {
+                errorFilesDialog();
+
             } catch (IOException ex) {
-                ex.printStackTrace();
+                errorSystemDialog();
             }
         });
         return _button;
     }
 
     private void createXlsGroupReport() throws IOException {
-        new GroupOrderReportExcel(_getNameClientText,_getCurrentDirText).createXlsFile();
+        new GroupOrderReportExcel(_getNameClientText, _getCurrentDirText).createXlsFile();
     }
 
     private JButton getEachButton() {
@@ -72,15 +81,43 @@ public class UiFrame extends JFrame {
             try {
                 writeOrderToDB();
                 createXlsDetailReport();
+            }
+            catch (NotDirectoryException ex) {
+                errorDirectoryDialog();
+
+            } catch (NoSuchElementException ex) {
+                errorFilesDialog();
+
             } catch (IOException ex) {
-                ex.printStackTrace();
+                errorSystemDialog();
             }
         });
+
         return _button;
     }
 
+    private void errorDirectoryDialog() {
+        JOptionPane.showMessageDialog(this,
+                _getCurrentDirText + " Такой директории не существует",
+                "Ошибка",
+                JOptionPane.WARNING_MESSAGE);
+    }
+
+    private void errorFilesDialog() {
+        JOptionPane.showMessageDialog(this,
+                "Не найдено ни одного файла удовлетворяющего запросу",
+                "Ошибка",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+    private void errorSystemDialog() {
+        JOptionPane.showMessageDialog(this,
+                "Непредвиденная ошибка",
+                "Ошибка",
+                JOptionPane.ERROR_MESSAGE);
+    }
+
     private void createXlsDetailReport() throws IOException {
-        new SelectAllOrderReportExcel(_getNameClientText,_getCurrentDirText).createXlsFile();
+        new SelectAllOrderReportExcel(_getNameClientText, _getCurrentDirText).createXlsFile();
     }
 
     private void writeOrderToDB() throws IOException {
